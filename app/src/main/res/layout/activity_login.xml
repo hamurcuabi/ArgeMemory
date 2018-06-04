@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/zyonetim"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+
+    <ImageView
+        android:id="@+id/imagsplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/zyonetim"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+
+        <EditText
+
+            android:id="@+id/edtUserName"
+            style="@style/edt_default_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edt_default_input"
+            android:hint="KULLANICI ADI"
+            android:imeOptions="actionNext" />
+
+
+        <EditText
+            android:id="@+id/edtPass"
+            style="@style/edt_default_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edt_default_input"
+            android:hint="ŞİFRE"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cbRememberMe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rememberme"
+                android:textColor="@color/white"/>
+
+
+        </LinearLayout>
+
+
+        <Button
+
+            android:id="@+id/btnLogin"
+            style="@style/btn_default_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_default_login"
+            android:text="GİRİŞ" />
+
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/pb_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+    </include>
+</RelativeLayout>

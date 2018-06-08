@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -7,14 +7,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="btn_default_login">
         <item name="android:background">#006064</item>
         <item name="android:color">#ffffff</item>
         <item name="android:padding">12dp</item>
-        <item name="android:textAlignment">center</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="edt_default_input">
         <item name="android:inputType">text</item>
         <item name="android:padding">12dp</item>
@@ -22,6 +24,32 @@
         <item name="android:textColorHint">@color/black_overlay</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomNoActionBar" parent="Theme.AppCompat.NoActionBar" />
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="TaskMans" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:windowExitTransition" tools:targetApi="lollipop">@transition/exit</item>
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="colorControlHighlight">#ea057f</item>
+        <item name="colorButtonNormal">#F28F24</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="MyTheme" parent="AppTheme" >
+        <item name="colorPrimary">#B0E0E6</item>
+        <item name="colorPrimaryDark">#ab2823</item>
+        <item name="colorAccent">#0f0f76</item>
     </style>
 
 </resources>

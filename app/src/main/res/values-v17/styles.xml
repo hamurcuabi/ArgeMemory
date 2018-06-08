@@ -9,4 +9,9 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
+    <style name="MyTheme" parent="AppTheme" >
+        <item name="colorPrimary">#B0E0E6</item>
+        <item name="colorPrimaryDark">#ab2823</item>
+        <item name="colorAccent">#0f0f76</item>
+    </style>
 </resources>

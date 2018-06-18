@@ -1,5 +1,6 @@
 package com.emrehmrc.argememory.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -37,6 +38,7 @@ import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static Locale myLocale;
     EditText edtUserName, edtPass;
     CheckBox cbRememberMe;
     Button btnLogin;
@@ -44,12 +46,12 @@ public class LoginActivity extends AppCompatActivity {
     View rootView;
     FragmentManager fragmentManager;
     String memberid;
+    ActionBar actionBar;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean remember;
-    ActionBar actionBar;
-    private static Locale myLocale;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +60,15 @@ public class LoginActivity extends AppCompatActivity {
         RememberInfo();
         clickListeners();
         isPendingIntent();
-        changeLocale("en");
+
+
+        // changeLocale("en");
 
     }
+
     //Change Locale
     public void changeLocale(String lang) {
-        if (lang.equalsIgnoreCase(""))
+        if (lang.equalsIgnoreCase("en"))
             return;
         myLocale = new Locale(lang);//Set Selected Locale
         Locale.setDefault(myLocale);//set new locale as default
@@ -74,9 +79,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void isPendingIntent() {
-        Intent i=getIntent();
-       if( i.getIntExtra("pending",0)==Utils.PENDING_FROM_NOTİFİATİON){
-            startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+        Intent i = getIntent();
+        if (i.getIntExtra("pending", 0) == Utils.PENDING_FROM_NOTİFİATİON) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
     }
@@ -128,9 +133,9 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.logo_ico);
         // setting actionbar title
-         actionBar.setTitle(R.string.login);
+        actionBar.setTitle(R.string.login);
         // setting actionbar subtitle
-       // actionBar.setSubtitle("Giriş");
+        // actionBar.setSubtitle("Giriş");
 
         edtUserName = findViewById(R.id.edtUserName);
         edtPass = findViewById(R.id.edtPass);
@@ -141,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         rootView = getWindow().getDecorView().getRootView();
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -188,6 +194,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void FragLoadingAdd() {
 
         FragLoading fragLoading = new FragLoading();
@@ -227,16 +234,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void GoMain() {
+        /*
         //Run Services
         if (!IsServiceWorking()) {
             Intent intent = new Intent(getApplicationContext(), NotificationServices.class);
             startService(intent);//Servisi başlatır
             //   stopService(intent);//servisi durdurur
         }
-        Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
-
+        finish();
+        */
+        Intent intent = new Intent(getApplicationContext(), ShareActivity.class);
+        startActivity(intent);
     }
 
     private void addToSql() {
@@ -280,7 +290,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String r) {
 
-           FragLoadingRemove();
+            FragLoadingRemove();
             if (isSuccess) {
 
                 if (cbRememberMe.isChecked()) {
@@ -328,6 +338,10 @@ public class LoginActivity extends AppCompatActivity {
                             isSuccess = true;
                             msj = "Başarılı Giriş";
                             type = 2;
+                        }
+                        else {
+                            msj = "Kullanıcı Adı/Şifre Hatalı!";
+
                         }
                     }
                 } catch (Exception ex) {

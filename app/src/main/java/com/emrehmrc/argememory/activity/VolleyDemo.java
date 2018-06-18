@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.helper.Utils;
+import com.emrehmrc.argememory.interfaces.DefaultActivitiy;
 import com.emrehmrc.argememory.services.NotificationServices;
 
 import java.io.ByteArrayOutputStream;
@@ -182,6 +183,9 @@ public class VolleyDemo extends AppCompatActivity {
             System.out.println("Error Occured");
         }
     }
+
+
+
     public class UploadImage extends AsyncTask<String,String,String>
     {
         @Override

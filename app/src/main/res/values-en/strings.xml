@@ -18,4 +18,14 @@
     <string name="email">email</string>
     <string name="login">Login</string>
     <string name="pano">PanoEng</string>
-</resources>
+    <string name="Department">Departman</string>
+    <string name="personel">Personel</string>
+    <string name="tag">Etiket</string>
+    <string name="task">İçerik</string>
+    <string name="writesomething">Bir Şeyler Yazın...</string>
+    <string name="btnOk">KAYDET</string>
+    <string name="cancel">İPTAL</string>
+    <string name="share">Paylaşım</string>
+    <string name="all">Hepsini Seç</string>
+    <string name="tamam">TAMAM</string>
+    </resources>

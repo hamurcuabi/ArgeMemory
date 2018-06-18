@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TaskManPopUpAdapter extends RecyclerView.Adapter<TaskManPopUpAdapter.MyviewHolder> {
+public class TaskManPopUpAdapter extends RecyclerView.Adapter<TaskManPopUpAdapter.MyviewHolder>
+        implements Serializable {
 
     ArrayList<String> datalist;
     LayoutInflater layoutInflater;
@@ -27,7 +29,7 @@ public class TaskManPopUpAdapter extends RecyclerView.Adapter<TaskManPopUpAdapte
 
 
     @Override
-    public TaskManPopUpAdapter.MyviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = layoutInflater.inflate(R.layout.taskmanpopuprecycler, parent, false);
         MyviewHolder myViewHolder = new MyviewHolder(v);

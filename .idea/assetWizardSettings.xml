@@ -18,12 +18,23 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
+                                      <entry key="clipArt">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="trimmed" value="true" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                       <entry key="clipartAsset">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_email_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_class_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -44,11 +55,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\Emre Hmrc\Desktop\STAFF\LogoArgeMemory.png" />
-                                      <entry key="outputName" value="logo_ico" />
-                                      <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="f28f24" />
+                                      <entry key="imageAsset" value="C:\Users\Emre Hmrc\Desktop\STAFF\zlogo.png" />
+                                      <entry key="outputName" value="department" />
+                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="themeColor" value="4267b2" />
                                     </map>
                                   </option>
                                 </PersistentState>

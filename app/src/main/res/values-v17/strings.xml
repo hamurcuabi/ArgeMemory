@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="search">ara</string>
+    <string name="Department">Departman</string>
+    <string name="personel">Personel</string>
+    <string name="tag">Etiket</string>
+    <string name="task">İçerik</string>
+    <string name="writesomething">Bir Şeyler Yazın...</string>
+    <string name="btnOk">KAYDET</string>
+    <string name="cancel">İPTAL</string>
+    <string name="share">Paylaşım</string>
+    <string name="tamam">TAMAM</string>
+    <string name="all">Hepsini Seç</string>
 </resources>

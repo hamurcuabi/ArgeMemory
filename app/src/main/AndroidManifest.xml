@@ -16,35 +16,32 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.Main2Activity"
+            android:name=".activity.MainActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".popup.TaskManPopup"
             android:theme="@style/TaskMans" />
-        <activity android:name=".activity.VolleyDemo">
-
-        </activity>
+        <activity android:name=".activity.VolleyDemo" />
 
         <service android:name=".services.NotificationServices" />
 
-        <activity android:name=".activity.FtpUpload">
+        <activity android:name=".activity.FtpUpload" />
+        <activity android:name=".activity.FileActivity" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/CustomNoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-        <activity android:name=".activity.FileActivity">
-
-        </activity>
+        <activity android:name=".activity.ShareActivity" />
+        <activity android:name=".popup.DepartmentPopup"
+            android:theme="@style/TaskMans"></activity>
     </application>
 
 </manifest>

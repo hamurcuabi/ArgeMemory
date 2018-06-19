@@ -3,8 +3,6 @@ package com.emrehmrc.argememory.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,7 +15,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.emrehmrc.argememory.R;
-import com.emrehmrc.argememory.fragment.FragLoading;
 
 import java.io.File;
 import java.io.FileNotFoundException;

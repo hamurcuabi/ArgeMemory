@@ -1,5 +1,7 @@
 package com.emrehmrc.argememory.activity;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,16 +19,23 @@ import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.DepartmentSpinnerAdapter;
+import com.emrehmrc.argememory.adapter.PersonelSpinnerAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
+import com.emrehmrc.argememory.fragment.DepartmentsFrag;
+import com.emrehmrc.argememory.fragment.PersonelFrag;
 import com.emrehmrc.argememory.helper.Utils;
+import com.emrehmrc.argememory.interfaces.ShareInterface;
 import com.emrehmrc.argememory.model.DepartmentModel;
+import com.emrehmrc.argememory.model.PersonelModel;
 import com.emrehmrc.argememory.popup.DepartmentPopup;
+import com.emrehmrc.argememory.popup.PersonelPopup;
 
 import java.util.ArrayList;
 
-public class ShareActivity extends AppCompatActivity {
+public class ShareActivity extends AppCompatActivity implements ShareInterface {
 
     public static final int DEPARTMENT = 1;  // The request code
+    public static final int PERSONEL = 2;  // The request code
     ActionBar actionBar;
     Button btnSave, btnCancel;
     EditText edtTask;
@@ -36,11 +45,15 @@ public class ShareActivity extends AppCompatActivity {
     TextView txtDep, txtPers, txtTag;
     Spinner spnDep, spnPers, spnTag;
     private SharedPreferences loginPreferences;
+    ArrayList<PersonelModel> persList;
+    ShareInterface shareInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
+        shareInterface = (ShareInterface)getApplicationContext();
+
         init();
         setListeners();
     }
@@ -55,9 +68,31 @@ public class ShareActivity extends AppCompatActivity {
         txtDep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                departmentPopup();
+               // departmentPopup();
+                DepartmentsFrag departmentsFrag=new DepartmentsFrag();
+                android.support.v4.app.FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameshare,departmentsFrag);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
+        txtPers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //personelPopup();
+                PersonelFrag personelFrag=new PersonelFrag();
+                android.support.v4.app.FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameshare,personelFrag);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+    }
+
+    private void personelPopup() {
+        Intent i = new Intent(getApplicationContext(), PersonelPopup.class);
+        i.putExtra("deplist", depList);
+        startActivityForResult(i, PERSONEL);
     }
 
     private void init() {
@@ -84,6 +119,7 @@ public class ShareActivity extends AppCompatActivity {
         spnTag = findViewById(R.id.spnTag);
         connectionClass = new ConnectionClass();
         depList = new ArrayList<>();
+
     }
 
     private void departmentPopup() {
@@ -154,6 +190,46 @@ public class ShareActivity extends AppCompatActivity {
 
 
         }
+        if (requestCode == PERSONEL) {
 
+            try {
+                persList = (ArrayList<PersonelModel>) data.getSerializableExtra("perslist");
+            }
+            catch (Exception ex){
+                persList.add(new PersonelModel("-1","Seçilmedi",false));
+            }
+            PersonelSpinnerAdapter customAdapter = new PersonelSpinnerAdapter(persList,
+                    getApplicationContext());
+            spnPers.setAdapter(customAdapter);
+
+
+        }
+
+    }
+
+    @Override
+    public void dialogDep(ArrayList<DepartmentModel> depList) {
+
+        if(depList!=null){
+            this.depList = depList;
+
+            DepartmentSpinnerAdapter customAdapter = new DepartmentSpinnerAdapter(this.depList,
+                    getApplicationContext());
+            spnDep.setAdapter(customAdapter);
+            shareInterface.dialogDep(depList);
+
+        }
+
+    }
+
+    @Override
+    public void dialogPers(ArrayList<PersonelModel> persList) {
+        if(persList!=null){
+            this.persList = persList;
+            PersonelSpinnerAdapter customAdapter = new PersonelSpinnerAdapter(this.persList,getApplicationContext());
+            spnPers.setAdapter(customAdapter);
+
+
+        }
     }
 }

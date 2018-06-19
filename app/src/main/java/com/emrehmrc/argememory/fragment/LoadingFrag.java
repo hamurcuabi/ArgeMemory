@@ -11,7 +11,7 @@ import com.emrehmrc.argememory.R;
 
 import in.ishankhanna.tinglingsquares.TinglingSquaresView;
 
-public class FragLoading extends Fragment {
+public class LoadingFrag extends Fragment {
 
     @Nullable
     @Override

@@ -92,6 +92,12 @@
         <item>com.github.glomadrian.grav.generator.animation.ShakeAnimator</item>
         <item>com.github.glomadrian.grav.generator.animation.AlphaAnimator</item>
     </string-array>
+    <string-array name="planets">
+        <item>Emre</item>
+        <item>Ali</item>
+        <item>Özen</item>
+        <item>Güven</item>
+    </string-array>
 
     <integer-array name="walla_points_percent_points">
         <item>10</item>

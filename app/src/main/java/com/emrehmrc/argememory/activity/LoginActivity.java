@@ -1,5 +1,6 @@
 package com.emrehmrc.argememory.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.FragmentManager;
@@ -7,9 +8,15 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,16 +31,23 @@ import android.widget.SearchView;
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
-import com.emrehmrc.argememory.fragment.FragLoading;
+import com.emrehmrc.argememory.fragment.LoadingFrag;
 import com.emrehmrc.argememory.helper.Utils;
+import com.emrehmrc.argememory.popup.DepartmentPopup;
+import com.emrehmrc.argememory.popup.PersonelPopup;
 import com.emrehmrc.argememory.services.NotificationServices;
 import com.emrehmrc.argememory.sqllite.DataBase;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
@@ -50,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean remember;
+    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS=1111;
 
     @SuppressLint("NewApi")
     @Override
@@ -60,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         RememberInfo();
         clickListeners();
         isPendingIntent();
+        checkAndRequestPermissions();
 
 
         // changeLocale("en");
@@ -188,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.search://do something
                 break;
             case R.id.save:
+                takeScreenshot();
                 break;
 
 
@@ -197,17 +214,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private void FragLoadingAdd() {
 
-        FragLoading fragLoading = new FragLoading();
+        LoadingFrag loadingFrag = new LoadingFrag();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.layout_login, fragLoading, "loading");
+        fragmentTransaction.add(R.id.layout_login, loadingFrag, "loading");
         fragmentTransaction.commit();
     }
 
     private void FragLoadingRemove() {
-        FragLoading fragLoading = (FragLoading) fragmentManager.findFragmentByTag("loading");
+        LoadingFrag loadingFrag = (LoadingFrag) fragmentManager.findFragmentByTag("loading");
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (fragLoading != null) {
-            fragmentTransaction.remove(fragLoading);
+        if (loadingFrag != null) {
+            fragmentTransaction.remove(loadingFrag);
             fragmentTransaction.commit();
         }
 
@@ -245,7 +262,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         */
-        Intent intent = new Intent(getApplicationContext(), ShareActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DepartmentPopup.class);
         startActivity(intent);
     }
 
@@ -263,6 +280,47 @@ public class LoginActivity extends AppCompatActivity {
             db.UpdateMemberId(1, memberid);
         }
     }
+    //Take SS
+    private void takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            openScreenshot(imageFile);
+            new CustomToast().Show_Toast(getApplicationContext(), rootView, "Ekran Görünütüsü " +
+                            "Alındı.Tıklayarak Paylaşabilirsiniz!",
+                    Utils.INFO);
+
+
+        } catch (Throwable e) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace();
+        }
+    }
+    private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "image/*");
+        startActivity(intent);
+    }
+    //Take SS
 
     public boolean IsServiceWorking() {//Servis Çalışıyor mu kontrol eden fonksiyon
 
@@ -273,6 +331,35 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+    private boolean checkAndRequestPermissions() {
+        int permissionINTERNET = ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET);
+        int permissionCAMERA = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
+        int permissionREAD_EXTERNAL_STORAGE = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        int permissionWRITE_EXTERNAL_STORAGE = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionINTERNET != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.INTERNET);
+        }
+
+        if (permissionCAMERA != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.CAMERA);
+        }
+
+        if (permissionWRITE_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (permissionREAD_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 
     public class DoLogin extends AsyncTask<String, String, String> {

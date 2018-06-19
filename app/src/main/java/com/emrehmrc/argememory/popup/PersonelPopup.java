@@ -15,43 +15,60 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
-import com.emrehmrc.argememory.activity.ShareActivity;
-import com.emrehmrc.argememory.adapter.DepartmentPopupAdapter;
+import com.emrehmrc.argememory.adapter.PersonelPopupAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
-import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.DepartmentModel;
+import com.emrehmrc.argememory.model.PersonelModel;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class DepartmentPopup extends AppCompatActivity {
+public class PersonelPopup extends AppCompatActivity {
+
 
     RecyclerView recyclerView;
-    DepartmentPopupAdapter adapter;
-    ArrayList<DepartmentModel> datalist;
+    PersonelPopupAdapter adapter;
+    ArrayList<PersonelModel> datalist;
     String companiesid = "";
     ConnectionClass connectionClass;
     String z;
     Boolean isSuccess;
-    ArrayList<DepartmentModel> selectedList;
+    ArrayList<PersonelModel> selectedList;
     Button btnOk;
-    ProgressBar pbDep;
+    ProgressBar pbPers;
     TextView txtall;
     boolean isall;
+    ArrayList<DepartmentModel> depList;
     private SharedPreferences loginPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_department_popup);
+        setContentView(R.layout.activity_personel_popup);
         init();
         setClickListeners();
-        FillDepartment fillDepartment = new FillDepartment();
-        String query = "select d.ID,d.NAME from DEPARTMANT as d ,COMPANIES as c where c" +
-                ".ID='" + companiesid + "'";
-        fillDepartment.execute(query);
+        //get data
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("deplist");
+        depList = (ArrayList<DepartmentModel>) args.getSerializable("ARRAYLIST");
+        fillPersonel();
+
+    }
+
+    private void fillPersonel() {
+
+        if (depList != null) {
+            for (int i = 0; i < depList.size(); i++) {
+                FillPersonel fillPersonel = new FillPersonel();
+                String query = "select m.ID,m.FULLNAME from VW_MEMBERDETAIL as m where m" +
+                        ".DEPARTMENTID='" + depList.get(i).getId() + "' and ISACTIVE='1'";
+                fillPersonel.execute(query);
+
+            }
+        }
+
 
     }
 
@@ -64,16 +81,12 @@ public class DepartmentPopup extends AppCompatActivity {
                     if (datalist.get(i).isOk()) {
                         selectedList.add(datalist.get(i));
                     }
+
                 }
                 if (selectedList.isEmpty()) {
-                    selectedList.add(new DepartmentModel(false, "BOŞ GİRİLEMEZ", "-1"));
+                    selectedList.add(new PersonelModel("-1", "BOŞ GİRİLEMEZ", false));
                 }
-                //send data to personel
-                Intent intent = new Intent(getApplicationContext(), PersonelPopup.class);
-                Bundle args = new Bundle();
-                args.putSerializable("ARRAYLIST",selectedList);
-                intent.putExtra("deplist",args);
-                startActivity(intent);
+
             }
         });
         txtall.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +105,8 @@ public class DepartmentPopup extends AppCompatActivity {
                     isall = true;
                 }
 
-                adapter = new DepartmentPopupAdapter(datalist, getApplicationContext());
+
+                adapter = new PersonelPopupAdapter(datalist, getApplicationContext());
                 recyclerView.setAdapter(adapter);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -105,39 +119,32 @@ public class DepartmentPopup extends AppCompatActivity {
     }
 
     private void init() {
+
         connectionClass = new ConnectionClass();
-        recyclerView = findViewById(R.id.popupdepartmans);
-        datalist = new ArrayList<>();
+        recyclerView = findViewById(R.id.popuppersonel);
         selectedList = new ArrayList<>();
-        btnOk = findViewById(R.id.btnOk);
-        pbDep = findViewById(R.id.pbDep);
-        txtall = findViewById(R.id.txtall);
+        btnOk = findViewById(R.id.btnOkPers);
+        pbPers = findViewById(R.id.pbPers);
+        txtall = findViewById(R.id.txtallPers);
         isall = false;
-        txtall.setText(getText(R.string.all) + "(" + datalist.size() + ")");
-        loginPreferences = getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
-        companiesid = loginPreferences.getString(Utils.COMPANIESID, "");
+        datalist = new ArrayList<>();
     }
 
-
-    private class FillDepartment extends AsyncTask<String, String, String> {
+    private class FillPersonel extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
-
             z = "";
             isSuccess = false;
-            datalist = new ArrayList<>();
-            // datalist.add(new DepartmentModel(false, getString(R.string.all), ""));
-            pbDep.setVisibility(View.VISIBLE);
-
+            pbPers.setVisibility(View.VISIBLE);
 
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         protected void onPostExecute(String r) {
-            pbDep.setVisibility(View.GONE);
-            adapter = new DepartmentPopupAdapter(datalist, getApplicationContext());
+            pbPers.setVisibility(View.GONE);
+            adapter = new PersonelPopupAdapter(datalist, getApplicationContext());
             recyclerView.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -161,10 +168,10 @@ public class DepartmentPopup extends AppCompatActivity {
                     ResultSet rs = stmt.executeQuery(params[0]);
 
                     while (rs.next()) {
-                        DepartmentModel temp = new DepartmentModel();
+                        PersonelModel temp = new PersonelModel();
                         temp.setOk(false);
                         temp.setId(rs.getString("ID"));
-                        temp.setText(rs.getString("NAME"));
+                        temp.setName(rs.getString("FULLNAME"));
                         datalist.add(temp);
                         isSuccess = true;
                     }
@@ -180,5 +187,4 @@ public class DepartmentPopup extends AppCompatActivity {
 
 
     }
-
 }

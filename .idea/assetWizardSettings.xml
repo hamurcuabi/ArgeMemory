@@ -34,7 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_class_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_language_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -56,9 +56,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="C:\Users\Emre Hmrc\Desktop\STAFF\zlogo.png" />
-                                      <entry key="outputName" value="department" />
-                                      <entry key="theme" value="HOLO_DARK" />
-                                      <entry key="themeColor" value="4267b2" />
+                                      <entry key="outputName" value="lang" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="000000" />
                                     </map>
                                   </option>
                                 </PersistentState>

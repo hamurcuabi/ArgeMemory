@@ -13,28 +13,28 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
-import com.emrehmrc.argememory.model.PersonelModel;
+import com.emrehmrc.argememory.model.TagModel;
 
 import java.util.ArrayList;
 
-public class PersonelPopupAdapter extends RecyclerView.Adapter<PersonelPopupAdapter.MyviewHolder>
+public class TagPopupAdapter extends RecyclerView.Adapter<TagPopupAdapter.MyviewHolder>
         implements Filterable {
-    ArrayList<PersonelModel> datalist;
+    ArrayList<TagModel> datalist;
     LayoutInflater layoutInflater;
     Context mContentxt;
-    PersonelFilterAdapter filter;
+    TagFilterAdapter filter;
 
-    public PersonelPopupAdapter(ArrayList<PersonelModel> datalist, Context mContentxt) {
+    public TagPopupAdapter(ArrayList<TagModel> datalist, Context mContentxt) {
         this.datalist = datalist;
         this.mContentxt = mContentxt;
         layoutInflater = LayoutInflater.from(mContentxt);
-        //setHasStableIds(true);
+       // setHasStableIds(true);filterable için kapat
     }
 
     @NonNull
     @Override
     public MyviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = layoutInflater.inflate(R.layout.personelpopuprecycler, parent, false);
+        View v = layoutInflater.inflate(R.layout.departmentpopuprecycler, parent, false);
         MyviewHolder myViewHolder = new MyviewHolder(v);
         return myViewHolder;
     }
@@ -58,8 +58,9 @@ public class PersonelPopupAdapter extends RecyclerView.Adapter<PersonelPopupAdap
 
     @Override
     public Filter getFilter() {
-        if (filter == null) {
-            filter = new PersonelFilterAdapter(this, datalist);
+        if(filter==null)
+        {
+            filter=new TagFilterAdapter(this,datalist);
         }
 
         return filter;
@@ -72,14 +73,14 @@ public class PersonelPopupAdapter extends RecyclerView.Adapter<PersonelPopupAdap
 
         public MyviewHolder(View itemView) {
             super(itemView);
-            txtFullName = itemView.findViewById(R.id.txtNamePers);
-            checkBox = itemView.findViewById(R.id.cbPers);
+            txtFullName = itemView.findViewById(R.id.tvFullName);
+            checkBox = itemView.findViewById(R.id.cbdep);
 
         }
 
         @SuppressLint("NewApi")
-        public void setData(final PersonelModel clicked, int position) {
-            this.txtFullName.setText(clicked.getName());
+        public void setData(final TagModel clicked, int position) {
+            this.txtFullName.setText(clicked.getTag());
             this.checkBox.setChecked(clicked.isOk());
 
         }

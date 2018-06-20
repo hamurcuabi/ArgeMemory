@@ -5,6 +5,7 @@
     <color name="colorPrimary">#4267B2</color>
     <color name="colorBack">#006058</color>
     <color name="colorPrimaryDark">#00BCD4</color>
+    <color name="colorAccent">#00BCD4</color>
     <color name="sliderarkaplan">#06a759</color>
     <color name="slidertext">#000000</color>
     <color name="listesatir1">#63c75c</color>
@@ -16,7 +17,6 @@
     <color name="deeppurple">#d849a9ed</color>
     <color name="yello">#ffb300</color>
     <color name="green">#6c00bfa5</color>
-    <color name="colorAccent">#FF4081</color>
     <color name="darkblue">#23283a</color>
     <color name="testcolorblue">#152b38</color>
     <color name="pink">#06a759</color>
@@ -25,7 +25,7 @@
     <color name="black_overlay">#000000</color>
     <color name="error">#e10f0f</color>
     <color name="defaultblue">#1e53be</color>
-    <color name="list_bg_1">#E0F7FA</color>
+    <color name="header">#9a030ffa</color>
     <color name="list_bg_2">#c7f8ff</color>
     <color name="black">#000</color>
     <color name="recycler">#a8f26e08</color>

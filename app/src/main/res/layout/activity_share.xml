@@ -29,7 +29,7 @@
         <TextView
             android:id="@+id/txtDepartment"
             style="@style/txt_defalut"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
@@ -39,6 +39,7 @@
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/spnDep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +85,8 @@
             android:id="@+id/edtTask"
             style="@style/edt_default_input"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -96,6 +98,7 @@
             android:gravity="start"
             android:hint="@string/writesomething"
             android:inputType="textMultiLine|textLongMessage"
+            app:layout_constraintBottom_toTopOf="@+id/btnSave"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTag" />
@@ -132,14 +135,12 @@
         <Spinner
             android:id="@+id/spnDep"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtDepartment"
+            app:layout_constraintBottom_toTopOf="@+id/txtPersonel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtDepartment"
             app:layout_constraintTop_toTopOf="parent" />
@@ -147,7 +148,7 @@
         <Spinner
             android:id="@+id/spnPers"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -157,12 +158,12 @@
             app:layout_constraintBottom_toTopOf="@+id/txtTag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtPersonel"
-            app:layout_constraintTop_toBottomOf="@+id/txtDepartment" />
+            app:layout_constraintTop_toBottomOf="@+id/spnDep" />
 
         <Spinner
             android:id="@+id/spnTag"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -172,10 +173,12 @@
             app:layout_constraintBottom_toBottomOf="@+id/txtTag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtTag"
-            app:layout_constraintTop_toTopOf="@+id/txtTag" />
+            app:layout_constraintTop_toBottomOf="@+id/spnPers" />
 
-        <FrameLayout
-            android:id="@+id/frameshare"
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/pbInsertShare"
+            style="?android:attr/progressBarStyle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
@@ -184,10 +187,10 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnSave"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtTask" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

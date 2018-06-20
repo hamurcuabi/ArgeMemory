@@ -11,4 +11,15 @@
     <string name="share">Paylaşım</string>
     <string name="tamam">TAMAM</string>
     <string name="all">Hepsini Seç</string>
+    <string name="share_activity">Paylaşım</string>
+    <string name="addtag">Yeni Etiket</string>
+    <string name="add">EKLE</string>
+    <string name="iptal">İPTAL</string>
+    <string name="GERİ">Button</string>
+    <string name="devam">DEVAM</string>
+    <string name="dil">Dil</string>
+    <string name="listoftask">GÖREV LİSTESİ</string>
+    <string name="dep_activity">Departman Seçimi</string>
+    <string name="pers_activity">Personel Seçimi</string>
+    <string name="tag_activity">Etiket Seçimi</string>
 </resources>

@@ -8,6 +8,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,11 +19,12 @@ import com.emrehmrc.argememory.popup.TaskManPopup;
 
 import java.util.ArrayList;
 
-public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.MyviewHolder> {
+public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.MyviewHolder>  implements Filterable {
 
     ArrayList<MainTaskModel> datalist;
     LayoutInflater layoutInflater;
     Context mContentxt;
+    TaskFilterAdapter filter;
 
     public MainTaskAdapter(Context context, ArrayList<MainTaskModel> data) {
         layoutInflater = LayoutInflater.from(context);
@@ -42,6 +45,7 @@ public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.Myview
     @Override
     public void onBindViewHolder(final MyviewHolder holder, int position) {
 
+        holder.setIsRecyclable(false);
         MainTaskModel clicked = datalist.get(position);
         holder.setData(clicked, position);
 
@@ -51,6 +55,15 @@ public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.Myview
     @Override
     public int getItemCount() {
         return datalist.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (filter == null) {
+            filter = new TaskFilterAdapter(this, datalist);
+        }
+
+        return filter;
     }
 
     public class MyviewHolder extends RecyclerView.ViewHolder {

@@ -18,14 +18,25 @@
     <string name="email">email</string>
     <string name="login">Login</string>
     <string name="pano">PanoEng</string>
-    <string name="Department">Departman</string>
+    <string name="Department">Departmant</string>
     <string name="personel">Personel</string>
-    <string name="tag">Etiket</string>
-    <string name="task">İçerik</string>
-    <string name="writesomething">Bir Şeyler Yazın...</string>
-    <string name="btnOk">KAYDET</string>
-    <string name="cancel">İPTAL</string>
-    <string name="share">Paylaşım</string>
-    <string name="all">Hepsini Seç</string>
-    <string name="tamam">TAMAM</string>
-    </resources>
+    <string name="tag">Tag</string>
+    <string name="task">Content</string>
+    <string name="writesomething">Write Something...</string>
+    <string name="btnOk">SAVE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="all">Select All</string>
+    <string name="tamam">OK</string>
+    <string name="share_activity">Share</string>
+    <string name="addtag">New Tag</string>
+    <string name="add">ADD</string>
+    <string name="iptal">CANCEL</string>
+    <string name="geri">Back</string>
+    <string name="devam">CONTINUE</string>
+    <string name="share">Share</string>
+    <string name="dil">Lang</string>
+    <string name="listoftask">TASKS LİST</string>
+    <string name="dep_activity">Choosing Departmant</string>
+    <string name="pers_activity">Choosing Personel</string>
+    <string name="tag_activity">Choosing Tag</string>
+</resources>

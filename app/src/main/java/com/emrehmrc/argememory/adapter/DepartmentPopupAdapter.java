@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
@@ -15,18 +17,20 @@ import com.emrehmrc.argememory.model.DepartmentModel;
 
 import java.util.ArrayList;
 
-public class DepartmentPopupAdapter extends RecyclerView.Adapter<DepartmentPopupAdapter.MyviewHolder> {
+public class DepartmentPopupAdapter extends RecyclerView.Adapter<DepartmentPopupAdapter
+        .MyviewHolder> implements Filterable {
 
     ArrayList<DepartmentModel> datalist;
     LayoutInflater layoutInflater;
     Context mContentxt;
+    DepartmentFilterAdapter filter;
 
 
     public DepartmentPopupAdapter(ArrayList<DepartmentModel> datalist, Context mContentxt) {
         this.datalist = datalist;
         this.mContentxt = mContentxt;
         layoutInflater = LayoutInflater.from(mContentxt);
-        setHasStableIds(true);
+        // setHasStableIds(true);
     }
 
     @NonNull
@@ -38,10 +42,10 @@ public class DepartmentPopupAdapter extends RecyclerView.Adapter<DepartmentPopup
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyviewHolder holder,final int position) {
+    public void onBindViewHolder(@NonNull MyviewHolder holder, final int position) {
 
         holder.setIsRecyclable(false);
-        holder.setData( datalist.get(position),position);
+        holder.setData(datalist.get(position), position);
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +59,15 @@ public class DepartmentPopupAdapter extends RecyclerView.Adapter<DepartmentPopup
         return datalist.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        if (filter == null) {
+            filter = new DepartmentFilterAdapter(this, datalist);
+        }
+
+        return filter;
+    }
+
     public class MyviewHolder extends RecyclerView.ViewHolder {
         TextView txtFullName;
         CheckBox checkBox;
@@ -62,8 +75,8 @@ public class DepartmentPopupAdapter extends RecyclerView.Adapter<DepartmentPopup
 
         public MyviewHolder(View itemView) {
             super(itemView);
-            txtFullName=itemView.findViewById(R.id.tvFullName);
-            checkBox=itemView.findViewById(R.id.cbdep);
+            txtFullName = itemView.findViewById(R.id.tvFullName);
+            checkBox = itemView.findViewById(R.id.cbdep);
 
         }
 

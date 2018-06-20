@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -41,17 +40,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ShareActivity" />
-        <activity
-            android:name=".popup.DepartmentPopup"
-            />
-        <activity
-            android:name=".popup.PersonelPopup"
-           />
+        <activity android:name=".popup.DepartmentPopup" />
+        <activity android:name=".popup.PersonelPopup" />
         <activity
             android:name=".activity.ShareTabActivity"
             android:label="@string/title_activity_share_tab"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.SampleSpinner"></activity>
+        <activity android:name=".activity.SampleSpinner" />
+        <activity android:name=".popup.TagPopup"></activity>
     </application>
 
 </manifest>

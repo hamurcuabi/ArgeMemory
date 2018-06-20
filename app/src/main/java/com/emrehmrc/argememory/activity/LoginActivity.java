@@ -35,6 +35,7 @@ import com.emrehmrc.argememory.fragment.LoadingFrag;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.popup.DepartmentPopup;
 import com.emrehmrc.argememory.popup.PersonelPopup;
+import com.emrehmrc.argememory.popup.TagPopup;
 import com.emrehmrc.argememory.services.NotificationServices;
 import com.emrehmrc.argememory.sqllite.DataBase;
 
@@ -71,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        changeLocale("tr");
         init();
         RememberInfo();
         clickListeners();
@@ -78,13 +80,11 @@ public class LoginActivity extends AppCompatActivity {
         checkAndRequestPermissions();
 
 
-        // changeLocale("en");
-
     }
 
     //Change Locale
     public void changeLocale(String lang) {
-        if (lang.equalsIgnoreCase("en"))
+        if (lang.equalsIgnoreCase(""))
             return;
         myLocale = new Locale(lang);//Set Selected Locale
         Locale.setDefault(myLocale);//set new locale as default
@@ -262,7 +262,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         */
-        Intent intent = new Intent(getApplicationContext(), DepartmentPopup.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 
@@ -388,8 +388,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (type == 1)
                 new CustomToast().Show_Toast(getApplicationContext(), rootView, msj, Utils.ERROR);
-            else if (type == 2) new CustomToast().Show_Toast(getApplicationContext(), rootView, msj,
-                    Utils.SUCCESS);
+         //   else if (type == 2) new CustomToast().Show_Toast(getApplicationContext(), rootView,    msj, Utils.SUCCESS);
             else if (type == 3) new CustomToast().Show_Toast(getApplicationContext(), rootView, msj,
                     Utils.WARNİNG);
             else if (type == 4) new CustomToast().Show_Toast(getApplicationContext(), rootView, msj,

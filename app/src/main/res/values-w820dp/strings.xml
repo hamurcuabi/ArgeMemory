@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="search">ara</string>
-    <string name="Department">Departman</string>
-    <string name="personel">Personel</string>
-    <string name="tag">Etiket</string>
-    <string name="task">İçerik</string>
-    <string name="writesomething">Bir Şeyler Yazın...</string>
-    <string name="btnOk">KAYDET</string>
-    <string name="cancel">İPTAL</string>
-    <string name="share">Paylaşım</string>
-    <string name="all">Hepsini Seç</string>
-    <string name="tamam">TAMAM</string>
     <string name="share_activity">Paylaşım</string>
     <string name="addtag">Yeni Etiket</string>
     <string name="add">EKLE</string>
     <string name="iptal">İPTAL</string>
     <string name="GERİ">Button</string>
     <string name="devam">DEVAM</string>
+    <string name="share">Paylaşım</string>
     <string name="dil">Dil</string>
     <string name="listoftask">GÖREV LİSTESİ</string>
     <string name="dep_activity">Departman Seçimi</string>

@@ -2,13 +2,13 @@ package com.emrehmrc.argememory.model;
 
 import java.io.Serializable;
 
-public class PersonelModel implements Serializable{
+public class PersonelModel implements Serializable {
 
     private String id;
     private String name;
     private boolean isOk;
 
-    public PersonelModel()  {
+    public PersonelModel() {
     }
 
     public PersonelModel(String id, String name, boolean isOk) {

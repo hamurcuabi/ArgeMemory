@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/appbackcolor"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/activity_controller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="start"
         android:orientation="vertical"
         android:weightSum="2">
 
@@ -48,7 +48,7 @@
             android:background="@color/colorPrimary"
             android:drawableLeft="@drawable/showall"
             android:padding="5dp"
-            android:text="GÖREV LİSTESİ"
+            android:text="@string/listoftask"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -60,11 +60,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/green"
-            android:paddingTop="5dp"
-            >
-        </android.support.v7.widget.RecyclerView>
+            android:paddingTop="5dp"></android.support.v7.widget.RecyclerView>
+
         <ExpandableListView
-            android:visibility="gone"
             android:id="@+id/expand_listview"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -74,10 +72,9 @@
             android:divider="@color/zyonetim"
             android:dividerHeight="1dp"
             android:groupIndicator="@drawable/group_indicator"
-            android:transcriptMode="alwaysScroll"></ExpandableListView>
+            android:transcriptMode="alwaysScroll"
+            android:visibility="gone"></ExpandableListView>
     </LinearLayout>
-
-
 
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,11 +1,16 @@
 package com.emrehmrc.argememory.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -30,12 +35,16 @@ import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.ExpandListAdapter;
 import com.emrehmrc.argememory.adapter.MainTaskAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
+import com.emrehmrc.argememory.custom_ui.CustomToast;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.MainTaskModel;
+import com.emrehmrc.argememory.popup.DepartmentPopup;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -51,6 +60,7 @@ import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity implements NavigationView
         .OnNavigationItemSelectedListener {
+    private static Locale myLocale;
     public List<String> list_parent;
     public ExpandListAdapter expand_adapter;
     public HashMap<String, List<String>> list_child;
@@ -74,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     FloatingActionButton fab;
+    View rootView;
+    String eng, tr;
+    boolean lang = false;
     private SimpleDateFormat dateDefault;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
@@ -87,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         ExpandListPrepare();
         clicklisteners();
         getMainTasks();
-
 
     }
 
@@ -232,9 +244,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         } else {
             imgAvatar.setImageResource(R.mipmap.ic_launcher_round);
         }
-
+        rootView = getWindow().getDecorView().getRootView();
+        eng = "en";
+        tr = "";
 
     }
+
+    //Take SS
+    private void takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            openScreenshot(imageFile);
+            new CustomToast().Show_Toast(getApplicationContext(), rootView, "Ekran Görünütüsü " +
+                            "Alındı.Tıklayarak Paylaşabilirsiniz!",
+                    Utils.INFO);
+
+
+        } catch (Throwable e) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace();
+        }
+    }
+
+    private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "image/*");
+        startActivity(intent);
+    }
+    //Take SS
 
     @Override
     public void onBackPressed() {
@@ -269,7 +326,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                return true;
+                mainTaskAdapter.getFilter().filter(newText);
+                return false;
 
             }
         };
@@ -286,6 +344,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         switch (item.getItemId()) {
             case R.id.search://do something
                 break;
+            case R.id.save:
+                takeScreenshot();
+                break;
 
 
         }
@@ -296,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();  
+        int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
@@ -307,8 +368,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            Intent i = new Intent(getApplicationContext(), DepartmentPopup.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.nav_lang) {
+
+            if (lang) {
+                changeLocale(tr);
+                new CustomToast().Show_Toast(getApplicationContext(),rootView,"Türkçe Dili " +
+                        "Seçildi",Utils.INFO);
+                lang=false;
+                
+            } else {
+                changeLocale(eng);
+                new CustomToast().Show_Toast(getApplicationContext(),rootView,"İngilizce Dili " +
+                        "Seçildi",Utils.INFO);
+                lang=true;
+            }
 
         }
 
@@ -317,6 +394,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
+    //Change Locale
+    public void changeLocale(String lang) {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        myLocale = new Locale(lang);//Set Selected Locale
+        Locale.setDefault(myLocale);//set new locale as default
+        Configuration config = new Configuration();//get Configuration
+        config.locale = myLocale;//set config locale as selected locale
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());//Update the config
+
+    }
 
     public class MainTasks extends AsyncTask<String, String, String> {
         String z = "";

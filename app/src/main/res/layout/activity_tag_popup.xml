@@ -8,8 +8,8 @@
     tools:context=".popup.TaskManPopup">
 
     <ProgressBar
-        android:id="@+id/pbPers"
-        style="?android:attr/progressBarStyle"
+        android:id="@+id/pbDep"
+        android:indeterminateTint="@color/colorPrimaryDark"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -25,24 +25,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnOkPers"
+        android:id="@+id/btnOk"
         style="@style/btn_default_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_ok"
         android:drawableLeft="@drawable/ok"
-        android:text="@string/devam"
+        android:text="@string/tamam"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popupdepartmans" />
 
     <TextView
-        android:id="@+id/txtallPers"
+        android:id="@+id/txtall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="5dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -56,13 +58,12 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/popuppersonel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/popuppersonel"
+        android:id="@+id/popupdepartmans"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -71,27 +72,32 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnOkPers"
+        app:layout_constraintBottom_toTopOf="@+id/btnOk"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtallPers">
+        app:layout_constraintTop_toBottomOf="@+id/txtall">
 
     </android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:background="@drawable/btn_cancel"
-        android:drawableLeft="@drawable/goback"
-        style="@style/btn_default_login"
-        android:id="@+id/btnBackPers"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/geri"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popuppersonel" />
+        app:layout_constraintTop_toBottomOf="@+id/popupdepartmans">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabaddtag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+    </android.support.design.widget.CoordinatorLayout>
+
 
 </android.support.constraint.ConstraintLayout>

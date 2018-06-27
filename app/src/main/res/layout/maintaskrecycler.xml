@@ -57,20 +57,18 @@
             android:id="@+id/tvTaskTag"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:paddingLeft="5dp"
             android:text="Etiket"
             android:textColor="@color/black_overlay"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvDescription"
-            app:layout_constraintEnd_toStartOf="@+id/imgTaskMans"
+            app:layout_constraintEnd_toStartOf="@+id/txtSubTask"
             app:layout_constraintStart_toEndOf="@+id/txtUsermail"
-            app:layout_constraintTop_toTopOf="@+id/imgTaskMans" />
+            app:layout_constraintTop_toTopOf="@+id/txtSubTask" />
 
         <TextView
             android:id="@+id/tvDescription"
@@ -87,48 +85,53 @@
             android:textColor="@color/black_overlay"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvTaskTotalMan"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/tvTaskTag" />
 
         <ImageButton
             android:id="@+id/imgTaskMans"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
+            android:background="@drawable/countman"
             app:layout_constraintEnd_toEndOf="@+id/tvTaskCreater"
-            app:layout_constraintTop_toBottomOf="@+id/tvTaskCreater"
-            android:background="@drawable/countman"/>
+            app:layout_constraintStart_toEndOf="@+id/txtSubTask"
+            app:layout_constraintTop_toBottomOf="@+id/tvTaskCreater" />
 
         <TextView
-            android:padding="5dp"
             android:id="@+id/tvTaskTotalMan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="count"
+            android:padding="5dp"
+            android:text="0"
             android:textAlignment="center"
             android:textColor="@color/black_overlay"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/imgTaskMans"
-            app:layout_constraintStart_toStartOf="@+id/imgTaskMans"
-            app:layout_constraintTop_toBottomOf="@+id/imgTaskMans" />
+            app:layout_constraintBottom_toBottomOf="@+id/imgTaskMans"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/imgTaskMans"
+            app:layout_constraintTop_toBottomOf="@+id/tvTaskCreater" />
 
         <TextView
             android:id="@+id/txtUsermail"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:drawableLeft="@drawable/tag"
+            app:layout_constraintEnd_toStartOf="@+id/tvTaskTag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTaskDate" />
 
@@ -142,5 +145,26 @@
             android:drawableLeft="@drawable/descp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTaskTag" />
+
+        <TextView
+            android:id="@+id/txtSubTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/subtask"
+            android:paddingLeft="5dp"
+            android:text="55"
+            android:textColor="@color/black_overlay"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imgTaskMans"
+            app:layout_constraintEnd_toStartOf="@+id/imgTaskMans"
+            app:layout_constraintStart_toEndOf="@+id/tvTaskTag"
+            app:layout_constraintTop_toTopOf="@+id/imgTaskMans" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

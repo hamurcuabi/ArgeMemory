@@ -39,4 +39,44 @@
     <string name="dep_activity">Choosing Departmant</string>
     <string name="pers_activity">Choosing Personel</string>
     <string name="tag_activity">Choosing Tag</string>
+    <string name="makeshare">Share</string>
+    <string name="showallshare">Show Shares</string>
+    <string name="select_date">Select Date</string>
+    <string name="select_time">Select Time</string>
+    <string name="sharing">Sharing</string>
+    <string name="startdate">Start Date</string>
+    <string name="enddate">End Date</string>
+    <string name="txtsharing">Shared Tasks</string>
+    <string name="updatedescp">Update Descp</string>
+    <string name="crash">Beklenmeyen Bir Hata Oluştu:(</string>
+    <string name="raporet">Rapor Et</string>
+    <string name="raporetme">Kapat</string>
+    <string name="commnets">Yorumlar</string>
+    <string name="yorumyap">Paylaş</string>
+    <!-- Nav Drawer Menu Items -->
+
+    <string-array name="menuList">
+        <item>Home</item>
+        <item>Profile</item>
+        <item>Share Task</item>
+        <item>Share Tasks</item>
+        <item>Messages</item>
+        <item>Notifications</item>
+        <item>Settings</item>
+        <item>Exit</item>
+    </string-array>
+
+
+    <string-array name="menuIconList">
+
+        <item>@drawable/home</item>
+        <item>@drawable/profile</item>
+        <item>@drawable/sharetask</item>
+        <item>@drawable/getsharetask</item>
+        <item>@drawable/message</item>
+        <item>@drawable/notification</item>
+        <item>@drawable/settings</item>
+        <item>@drawable/exit</item>
+
+    </string-array>
 </resources>

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.model.DepartmentModel;
+import com.emrehmrc.argememory.model.SingletonShare;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,7 @@ public class DepartmentPopupAdapter extends RecyclerView.Adapter<DepartmentPopup
     @Override
     public void onBindViewHolder(@NonNull MyviewHolder holder, final int position) {
 
-        holder.setIsRecyclable(false);
+      //  holder.setIsRecyclable(false);
         holder.setData(datalist.get(position), position);
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +85,7 @@ public class DepartmentPopupAdapter extends RecyclerView.Adapter<DepartmentPopup
         public void setData(final DepartmentModel clicked, int position) {
             this.txtFullName.setText(clicked.getText());
             this.checkBox.setChecked(clicked.isOk());
+
 
         }
     }

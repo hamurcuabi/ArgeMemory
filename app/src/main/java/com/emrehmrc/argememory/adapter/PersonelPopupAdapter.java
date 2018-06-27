@@ -41,7 +41,7 @@ public class PersonelPopupAdapter extends RecyclerView.Adapter<PersonelPopupAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyviewHolder holder, final int position) {
-        holder.setIsRecyclable(false);
+        //holder.setIsRecyclable(false);
         holder.setData(datalist.get(position), position);
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override

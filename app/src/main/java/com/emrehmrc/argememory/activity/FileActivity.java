@@ -1,6 +1,7 @@
 package com.emrehmrc.argememory.activity;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,10 +12,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,12 +27,16 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.emrehmrc.argememory.R;
+import com.emrehmrc.argememory.connection.ConnectionClass;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -50,6 +58,7 @@ public class FileActivity extends Activity {
     UUID uuıd;
     String photoName;
     ProgressBar loading;
+    ConnectionClass connectionClass;
 
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
@@ -70,7 +79,7 @@ public class FileActivity extends Activity {
         btnSelectPhoto = findViewById(R.id.btnSelectPhoto);
         btnUpload = findViewById(R.id.btnUpload);
         viewImage = findViewById(R.id.viewImage);
-        loading=findViewById(R.id.loading);
+        loading = findViewById(R.id.loading);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +93,7 @@ public class FileActivity extends Activity {
                 else uploadFile(fGalery);
             }
         });
+        connectionClass=new ConnectionClass();
 
     }
 
@@ -201,6 +211,9 @@ public class FileActivity extends Activity {
                 }
 
             } else if (requestCode == 2) {
+
+
+
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
@@ -239,30 +252,78 @@ public class FileActivity extends Activity {
                         rotatedBitmap = thumbnail;
                 }
                 viewImage.setImageBitmap(rotatedBitmap);
+                String encodedImageData =getEncoded64ImageStringFromBitmap(rotatedBitmap);
+                InsertImg ınsertImg=new InsertImg();
+                String q="insert into ";
+                ınsertImg.execute(encodedImageData);
 
             }
 
         }
 
     }
+    private class InsertImg extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPostExecute(String r) {
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+
+                Connection con = connectionClass.CONN();
+                if (con == null) {
+                } else {
+
+                    PreparedStatement preparedStatement = con.prepareStatement(params[0]);
+                    preparedStatement.executeUpdate();
+
+                }
+            } catch (Exception ex) {
+
+            }
+
+            return "";
+        }
+
+
+    }
+
+    public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        byte[] byteFormat = stream.toByteArray();
+        // get the base 64 string
+        String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
+        return imgString;
+    }
 
     public class MyTransferListener implements FTPDataTransferListener {
 
         public void started() {
 
-           btnUpload.setEnabled(false);
-           btnSelectPhoto.setEnabled(false);
-            Log.e("TAG","start");
+            btnUpload.setEnabled(false);
+            btnSelectPhoto.setEnabled(false);
+            Log.e("TAG", "start");
         }
 
         public void transferred(int length) {
 
-            Log.e("TAG","transferred");
+            Log.e("TAG", "transferred");
         }
 
         public void completed() {
 
-            Log.e("TAG","completed");
+            Log.e("TAG", "completed");
             btnUpload.setEnabled(true);
             btnSelectPhoto.setEnabled(true);
             // Transfer completed
@@ -273,7 +334,7 @@ public class FileActivity extends Activity {
 
         public void aborted() {
 
-            Log.e("TAG","aborted");
+            Log.e("TAG", "aborted");
             // Transfer aborted
             Toast.makeText(getBaseContext(), " transfer aborted , please try again...", Toast.LENGTH_SHORT).show();
 
@@ -281,7 +342,7 @@ public class FileActivity extends Activity {
 
         public void failed() {
 
-            Log.e("TAG","failed");
+            Log.e("TAG", "failed");
             // Transfer failed
         }
 

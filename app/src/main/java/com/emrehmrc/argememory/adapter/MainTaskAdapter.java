@@ -50,6 +50,7 @@ public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.Myview
         holder.setData(clicked, position);
 
 
+
     }
 
     @Override
@@ -69,7 +70,7 @@ public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.Myview
     public class MyviewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView txtDate, txtTaskCreater, txtTag, txtTotalTaskMan, txtDescription;
+        TextView txtDate, txtTaskCreater, txtTag, txtTotalTaskMan, txtDescription,txtSubCount;
         ImageButton imgTaskMans;
 
 
@@ -81,6 +82,7 @@ public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.Myview
             txtDescription = itemView.findViewById(R.id.tvDescription);
             txtTotalTaskMan = itemView.findViewById(R.id.tvTaskTotalMan);
             imgTaskMans = itemView.findViewById(R.id.imgTaskMans);
+            txtSubCount = itemView.findViewById(R.id.txtSubTask);
 
 
         }
@@ -93,6 +95,7 @@ public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.Myview
             this.txtDescription.setText(Html.fromHtml(htmldes));
             this.txtTag.setText(clicked.getTaskTag());
             this.txtTotalTaskMan.setText(clicked.getTaskCountMan());
+            this.txtSubCount.setText(clicked.getSubTaskCount());
             imgTaskMans.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

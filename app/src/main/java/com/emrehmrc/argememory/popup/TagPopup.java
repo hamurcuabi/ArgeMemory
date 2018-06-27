@@ -30,6 +30,7 @@ import com.emrehmrc.argememory.activity.ShareActivity;
 import com.emrehmrc.argememory.adapter.TagPopupAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.LinearLayoutManagerWithSmoothScroller;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.SingletonShare;
 import com.emrehmrc.argememory.model.TagModel;
@@ -53,7 +54,7 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
     String z;
     Boolean isSuccess;
     ArrayList<TagModel> selectedList;
-    Button btnOk;
+    Button btnOk,btnCancel;
     ProgressBar pbDep;
     TextView txtall;
     boolean isall;
@@ -68,15 +69,16 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
         setContentView(R.layout.activity_tag_popup);
         init();
         setClickListeners();
-       fillTag();
+       fillTag(0);
 
     }
 
-    public void fillTag() {
+    public void fillTag(int dialog) {
+        String d=String.valueOf(dialog);
         FillTag fillTag = new FillTag();
         String query = "select ID,NAME from TASKANDSHARETAG where COMPANIESID='" + companiesid +
                 "' order by (SORT)";
-        fillTag.execute(query);
+        fillTag.execute(query,d);
     }
 
     private void setClickListeners() {
@@ -96,8 +98,6 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
                 }
                 SingletonShare share = SingletonShare.getInstance();
                 share.setTagList(selectedList);
-                Intent i=new Intent(getApplicationContext(),ShareActivity.class);
-                startActivity(i);
                 finish();
 
             }
@@ -135,6 +135,12 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
                 openAddTag();
             }
         });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void init() {
@@ -156,6 +162,7 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
         pbDep = findViewById(R.id.pbDep);
         txtall = findViewById(R.id.txtall);
         fabTag=findViewById(R.id.fabaddtag);
+        btnCancel=findViewById(R.id.btnCancelTagPop);
         isall = false;
         txtall.setText(getText(R.string.all) + "(" + datalist.size() + ")");
         loginPreferences = getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
@@ -260,7 +267,8 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
     @Override
     public void isClosed(boolean isclosed) {
         if(isclosed){
-            fillTag();
+            fillTag(1);
+
         }
     }
 
@@ -286,7 +294,14 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
             recyclerView.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothScroller(getApplicationContext()));
+
+            if(z.equals("1")){
+                recyclerView.smoothScrollToPosition(datalist.size()-1);
+                datalist.get(datalist.size()-1).setOk(true);
+                recyclerView.smoothScrollToPosition(datalist.size()-1);
+
+            }
             txtall.setText(getText(R.string.all) + "(" + datalist.size() + ")");
 
 
@@ -312,6 +327,7 @@ public class TagPopup extends AppCompatActivity implements AddTagPopup.DialogLis
                         temp.setTag(rs.getString("NAME"));
                         datalist.add(temp);
                         isSuccess = true;
+                        z=params[1];
                     }
 
                 }

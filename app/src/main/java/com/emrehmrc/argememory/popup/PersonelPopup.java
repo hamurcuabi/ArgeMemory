@@ -79,7 +79,7 @@ public class PersonelPopup extends AppCompatActivity {
 
     private void fillPersonel() {
 
-        if (depList != null) {
+        if (depList != null && depList.size()>0) {
             for (int i = 0; i < depList.size(); i++) {
                 FillPersonel fillPersonel = new FillPersonel();
                 String query = "select m.ID,m.FULLNAME from VW_MEMBERDETAIL as m where m" +
@@ -87,6 +87,12 @@ public class PersonelPopup extends AppCompatActivity {
                 fillPersonel.execute(query);
 
             }
+        }
+        else {
+            FillPersonel fillPersonel = new FillPersonel();
+            String query = "select m.ID,m.FULLNAME from VW_MEMBERDETAIL as m  where ISACTIVE='1' " +
+                    " and COMPANIESID='"+companiesid+"'";
+            fillPersonel.execute(query);
         }
 
 
@@ -111,8 +117,6 @@ public class PersonelPopup extends AppCompatActivity {
                     //send to tag
                     SingletonShare share=SingletonShare.getInstance();
                     share.setPersList(selectedList);
-                    Intent i=new Intent(getApplicationContext(),TagPopup.class);
-                    startActivity(i);
                     finish();
 
                 }
@@ -176,6 +180,8 @@ public class PersonelPopup extends AppCompatActivity {
         isall = false;
         datalist=new ArrayList<>();
         rootView=getWindow().getDecorView().getRootView();
+        loginPreferences = getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
+        companiesid = loginPreferences.getString(Utils.COMPANIESID, "");
     }
     //Take SS
     private void takeScreenshot() {

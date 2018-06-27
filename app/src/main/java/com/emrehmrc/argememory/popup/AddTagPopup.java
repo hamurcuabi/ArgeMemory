@@ -33,17 +33,17 @@ public class AddTagPopup extends AppCompatDialogFragment {
     ConnectionClass connectionClass;
     boolean isok;
     String companiesid = "";
-    private SharedPreferences loginPreferences;
     View rootView;
     DialogListener dialogListener;
+    private SharedPreferences loginPreferences;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            dialogListener= (DialogListener) context;
+            dialogListener = (DialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()+"must be implemnted dialoglistener " +
+            throw new ClassCastException(context.toString() + "must be implemnted dialoglistener " +
                     "interface");
         }
     }
@@ -56,9 +56,9 @@ public class AddTagPopup extends AppCompatDialogFragment {
         builder.setView(view);
 
         connectionClass = new ConnectionClass();
-        loginPreferences =getActivity().getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
+        loginPreferences = getActivity().getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
         companiesid = loginPreferences.getString(Utils.COMPANIESID, "");
-        rootView =getActivity().getWindow().getDecorView().getRootView();
+        rootView = getActivity().getWindow().getDecorView().getRootView();
 
 
         edtNewTag = view.findViewById(R.id.edtNewTag);
@@ -74,18 +74,32 @@ public class AddTagPopup extends AppCompatDialogFragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SingletonShare singletonShare = SingletonShare.getInstance();
-                singletonShare.setNewTag(edtNewTag.getText().toString());
-                String query="insert into TASKANDSHARETAG (COMPANIESID,NAME,SORT) values " +
-                        "('"+companiesid+"','"+edtNewTag.getText().toString()+"'," +
-                        "(Select MAX(SORT) from TASKANDSHARETAG where COMPANIESID='"+companiesid+"'))";
-                InsertTag insertTag=new InsertTag();
-                insertTag.execute(query);
-                dialogListener.isClosed(true);
+                if (!edtNewTag.getText().toString().trim().isEmpty()) {
+                    SingletonShare singletonShare = SingletonShare.getInstance();
+                    singletonShare.setNewTag(edtNewTag.getText().toString());
+                    String query = "insert into TASKANDSHARETAG (COMPANIESID,NAME,SORT) values " +
+                            "('" + companiesid + "','" + edtNewTag.getText().toString() + "'," +
+                            "(Select MAX(SORT) from TASKANDSHARETAG where COMPANIESID='" + companiesid + "'))";
+                    InsertTag insertTag = new InsertTag();
+                    insertTag.execute(query);
+                    dialogListener.isClosed(true);
+                } else {
+                    new CustomToast().Show_Toast(getActivity(), rootView, "Yazı Alanı Boş Bırakılamaz", Utils.ERROR);
+                }
+
             }
         });
         return builder.create();
 
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+    }
+
+    public interface DialogListener {
+        void isClosed(boolean isclosed);
     }
 
     private class InsertTag extends AsyncTask<String, String, String> {
@@ -100,13 +114,12 @@ public class AddTagPopup extends AppCompatDialogFragment {
         @Override
         protected void onPostExecute(String r) {
 
-            if (isok){
-                new CustomToast().Show_Toast(getActivity(),rootView,"Başarıyla Eklendi",Utils.SUCCESS);
+            if (isok) {
+                new CustomToast().Show_Toast(getActivity(), rootView, "Başarıyla Eklendi", Utils.SUCCESS);
                 dismiss();
 
-            }
-            else {
-                new CustomToast().Show_Toast(getActivity(),rootView,"Hata Oluştu",Utils.ERROR);
+            } else {
+                new CustomToast().Show_Toast(getActivity(), rootView, "Hata Oluştu", Utils.ERROR);
                 dismiss();
             }
 
@@ -123,7 +136,7 @@ public class AddTagPopup extends AppCompatDialogFragment {
 
                     PreparedStatement preparedStatement = con.prepareStatement(params[0]);
                     preparedStatement.executeUpdate();
-                    isok=true;
+                    isok = true;
 
 
                 }
@@ -135,13 +148,5 @@ public class AddTagPopup extends AppCompatDialogFragment {
         }
 
 
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-    }
-    public interface DialogListener{
-        void isClosed(boolean isclosed);
     }
 }

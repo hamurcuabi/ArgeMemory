@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +34,11 @@ import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
 import com.emrehmrc.argememory.fragment.LoadingFrag;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.helper.Utils;
-import com.emrehmrc.argememory.popup.DepartmentPopup;
-import com.emrehmrc.argememory.popup.PersonelPopup;
-import com.emrehmrc.argememory.popup.TagPopup;
 import com.emrehmrc.argememory.services.NotificationServices;
 import com.emrehmrc.argememory.sqllite.DataBase;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,8 +52,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+
 public class LoginActivity extends AppCompatActivity {
 
+
+    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1111;
     private static Locale myLocale;
     EditText edtUserName, edtPass;
     CheckBox cbRememberMe;
@@ -65,12 +69,12 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean remember;
-    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS=1111;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_login);
         changeLocale("tr");
         init();
@@ -97,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     private void isPendingIntent() {
         Intent i = getIntent();
         if (i.getIntExtra("pending", 0) == Utils.PENDING_FROM_NOTİFİATİON) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivityNavDrawer.class));
             finish();
         }
     }
@@ -196,8 +200,6 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    // Implementing click listeners over all menu icons and displaying there
-    // texts
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -251,18 +253,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void GoMain() {
-        /*
-        //Run Services
+        finish();
         if (!IsServiceWorking()) {
             Intent intent = new Intent(getApplicationContext(), NotificationServices.class);
             startService(intent);//Servisi başlatır
-            //   stopService(intent);//servisi durdurur
         }
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-        finish();
-        */
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivityNavDrawer.class);
         startActivity(intent);
     }
 
@@ -280,6 +276,7 @@ public class LoginActivity extends AppCompatActivity {
             db.UpdateMemberId(1, memberid);
         }
     }
+
     //Take SS
     private void takeScreenshot() {
         Date now = new Date();
@@ -313,6 +310,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void openScreenshot(File imageFile) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
@@ -332,6 +330,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
+
     private boolean checkAndRequestPermissions() {
         int permissionINTERNET = ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET);
         int permissionCAMERA = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
@@ -384,11 +383,11 @@ public class LoginActivity extends AppCompatActivity {
                     SaveInfoAfterLogin();
                 }
                 GoMain();
-                addToSql();
+                //   addToSql();
             }
             if (type == 1)
                 new CustomToast().Show_Toast(getApplicationContext(), rootView, msj, Utils.ERROR);
-         //   else if (type == 2) new CustomToast().Show_Toast(getApplicationContext(), rootView,    msj, Utils.SUCCESS);
+                //   else if (type == 2) new CustomToast().Show_Toast(getApplicationContext(), rootView,    msj, Utils.SUCCESS);
             else if (type == 3) new CustomToast().Show_Toast(getApplicationContext(), rootView, msj,
                     Utils.WARNİNG);
             else if (type == 4) new CustomToast().Show_Toast(getApplicationContext(), rootView, msj,
@@ -424,8 +423,7 @@ public class LoginActivity extends AppCompatActivity {
                             isSuccess = true;
                             msj = "Başarılı Giriş";
                             type = 2;
-                        }
-                        else {
+                        } else {
                             msj = "Kullanıcı Adı/Şifre Hatalı!";
 
                         }

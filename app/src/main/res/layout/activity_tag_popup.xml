@@ -36,6 +36,7 @@
         android:background="@drawable/btn_ok"
         android:drawableLeft="@drawable/ok"
         android:text="@string/tamam"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popupdepartmans" />
@@ -94,10 +95,26 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabaddtag"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clickable="true"
             app:srcCompat="@android:drawable/ic_menu_edit" />
     </android.support.design.widget.CoordinatorLayout>
+
+    <Button
+        android:id="@+id/btnCancelTagPop"
+        style="@style/btn_default_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_cancel"
+        android:text="@string/cancel"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnOk"
+        app:layout_constraintTop_toTopOf="@+id/btnOk" />
 
 
 </android.support.constraint.ConstraintLayout>

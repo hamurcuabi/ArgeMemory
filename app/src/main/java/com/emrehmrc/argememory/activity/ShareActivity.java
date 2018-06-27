@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -35,6 +36,9 @@ import com.emrehmrc.argememory.model.DepartmentModel;
 import com.emrehmrc.argememory.model.PersonelModel;
 import com.emrehmrc.argememory.model.SingletonShare;
 import com.emrehmrc.argememory.model.TagModel;
+import com.emrehmrc.argememory.popup.DepartmentPopup;
+import com.emrehmrc.argememory.popup.PersonelPopup;
+import com.emrehmrc.argememory.popup.TagPopup;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,7 +76,7 @@ public class ShareActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share);
 
         init();
-        setListeners();
+        setClickListeners();
         fillSpinners();
     }
 
@@ -98,16 +102,25 @@ public class ShareActivity extends AppCompatActivity {
 
     }
 
-    private void setListeners() {
+    private void setClickListeners() {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!edtTask.getText().toString().isEmpty()) {
-                    insertShare();
-                    insertPers();
-                    insertTag();
+                if (!edtTask.getText().toString().trim().isEmpty()) {
+                    if(persList.size()>0){
+                        insertShare();
+                        SingletonShare singletonShare=SingletonShare.getInstance();
+                        singletonShare.setNull();
+                    }
+                    else {
+                        new CustomToast().Show_Toast(getApplicationContext(), rootView,
+                                "EN AZ 1 PERSONEL SEÇİLMELİ!",
+                                Utils.WARNİNG);
+                    }
+
                 } else {
-                    new CustomToast().Show_Toast(getApplicationContext(), rootView, "BOŞ BIRAKILAMAZ!",
+                    new CustomToast().Show_Toast(getApplicationContext(), rootView, "YAZI " +
+                                    "ALANI BOŞ BIRAKILAMAZ!",
                             Utils.WARNİNG);
                 }
 
@@ -117,24 +130,35 @@ public class ShareActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
+                SingletonShare singletonShare=SingletonShare.getInstance();
+                singletonShare.setNull();
                 finish();
             }
         });
         txtDep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), DepartmentPopup.class);
+                startActivity(i);
             }
         });
         txtPers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), PersonelPopup.class);
+                startActivity(i);
+            }
+        });
+        txtTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), TagPopup.class);
+                startActivity(i);
             }
         });
     }
 
-    private void insertShare() {
+    private void  insertShare() {
 
         uuıdshare = UUID.randomUUID();
         Calendar calendar = Calendar.getInstance();
@@ -203,6 +227,8 @@ public class ShareActivity extends AppCompatActivity {
         tagList = new ArrayList<>();
         persList = new ArrayList<>();
         rootView = getWindow().getDecorView().getRootView();
+        //edit text done on keyboard
+
 
     }
     //Take SS
@@ -308,10 +334,8 @@ public class ShareActivity extends AppCompatActivity {
         protected void onPostExecute(String r) {
             pbloading.setVisibility(View.GONE);
             if (isok) {
-                new CustomToast().Show_Toast(getApplicationContext(), rootView, "Başarıyla " + "Eklendi", Utils.SUCCESS);
-                Intent i=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(i);
-                finish();
+               // new CustomToast().Show_Toast(getApplicationContext(), rootView, "Başarıyla " +   "Eklendi", Utils.SUCCESS);
+                insertPers();
 
             } else {
                 new CustomToast().Show_Toast(getApplicationContext(), rootView, "HATA OLUŞTU",
@@ -356,6 +380,7 @@ public class ShareActivity extends AppCompatActivity {
             pbloading.setVisibility(View.GONE);
             if (isok) {
                 //new CustomToast().Show_Toast(getApplicationContext(), rootView, "Başarıyla " + "Eklendi", Utils.SUCCESS);
+                insertTag();
 
             } else {
                 new CustomToast().Show_Toast(getApplicationContext(), rootView, "HATA OLUŞTU",
@@ -398,12 +423,13 @@ public class ShareActivity extends AppCompatActivity {
         protected void onPostExecute(String r) {
             pbloading.setVisibility(View.GONE);
             if (isok) {
-                //new CustomToast().Show_Toast(getApplicationContext(), rootView, "Başarıyla " + "Eklendi", Utils.SUCCESS);
+                new CustomToast().Show_Toast(getApplicationContext(), rootView, "Başarıyla " + "Eklendi", Utils.SUCCESS);
 
             } else {
                 new CustomToast().Show_Toast(getApplicationContext(), rootView, "HATA OLUŞTU",
                         Utils.ERROR);
             }
+
 
         }
 
@@ -428,4 +454,9 @@ public class ShareActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillSpinners();
+    }
 }

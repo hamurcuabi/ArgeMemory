@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/appbackcolor"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    >
 
     <LinearLayout
         android:id="@+id/activity_controller"
@@ -16,11 +17,12 @@
         android:weightSum="2">
 
         <FrameLayout
-            android:id="@+id/container"
+            android:id="@+id/frame_calender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            >
 
             <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/compactcalendar_view"
@@ -40,27 +42,43 @@
 
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/txtCountTasks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/colorPrimary"
-            android:drawableLeft="@drawable/showall"
-            android:padding="5dp"
-            android:text="@string/listoftask"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <LinearLayout
+            android:id="@+id/translayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/green"
-            android:paddingTop="5dp"></android.support.v7.widget.RecyclerView>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtCountTasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/colorPrimary"
+                android:drawableLeft="@drawable/showall"
+                android:padding="5dp"
+                android:text="@string/listoftask"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/pbLoadMain"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/green"
+                android:paddingTop="5dp"></android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
 
         <ExpandableListView
             android:id="@+id/expand_listview"
@@ -73,7 +91,9 @@
             android:dividerHeight="1dp"
             android:groupIndicator="@drawable/group_indicator"
             android:transcriptMode="alwaysScroll"
-            android:visibility="gone"></ExpandableListView>
+            android:visibility="gone">
+
+        </ExpandableListView>
     </LinearLayout>
 
 

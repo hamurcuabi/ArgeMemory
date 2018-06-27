@@ -1,13 +1,27 @@
 package com.emrehmrc.argememory.model;
 
-public class MainTaskModel {
+import java.io.Serializable;
+
+public class MainTaskModel implements Serializable {
 
     private String taskDate;
     private String taskCreater;
     private String taskTag;
     private String taskDescription;
-    private  String taskCountMan;
-    private  String taskId;
+    private String taskCountMan;
+    private String taskId;
+    private String subTaskCount;
+
+    public String getSubTaskCount() {
+        return subTaskCount;
+    }
+
+    public void setSubTaskCount(String subTaskCount) {
+        this.subTaskCount = subTaskCount;
+    }
+
+    public MainTaskModel() {
+    }
 
     public String getTaskId() {
         return taskId;
@@ -23,9 +37,6 @@ public class MainTaskModel {
 
     public void setTaskCountMan(String taskCountMan) {
         this.taskCountMan = taskCountMan;
-    }
-
-    public MainTaskModel() {
     }
 
     public String getTaskDate() {

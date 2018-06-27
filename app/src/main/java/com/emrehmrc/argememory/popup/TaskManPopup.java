@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.TaskManPopUpAdapter;
@@ -27,8 +29,9 @@ public class TaskManPopup extends AppCompatActivity {
     ArrayList<String> datalist;
     String id = "";
     ConnectionClass connectionClass;
-
+    ProgressBar pbL;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_man_pop_up);
@@ -36,6 +39,7 @@ public class TaskManPopup extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Intent intent = getIntent();
         id = intent.getExtras().getString("id");
+        pbL=findViewById(R.id.pbL);
         connectionClass = new ConnectionClass();
 
         int width = dm.widthPixels;
@@ -44,7 +48,9 @@ public class TaskManPopup extends AppCompatActivity {
         recyclerView = findViewById(R.id.popuptaskmans);
         datalist = new ArrayList<>();
         MainTasks mainTasks = new MainTasks();
-        mainTasks.execute(id);
+        String query = "select MEMBERFULLNAME from VW_TASKMEMBER where " +
+                "ID='" + id + "'";
+        mainTasks.execute(query);
 
 
     }
@@ -57,6 +63,7 @@ public class TaskManPopup extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
 
+            pbL.setVisibility(View.VISIBLE);
             datalist = new ArrayList<>();
 
 
@@ -71,6 +78,7 @@ public class TaskManPopup extends AppCompatActivity {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayoutManager);
+            pbL.setVisibility(View.GONE);
 
         }
 
@@ -85,10 +93,8 @@ public class TaskManPopup extends AppCompatActivity {
                 } else {
 
 
-                    String query = "select MEMBERFULLNAME from VW_TASKMEMBER where " +
-                            "ID='" + params[0] + "'";
                     Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery(query);
+                    ResultSet rs = stmt.executeQuery(params[0]);
 
                     while (rs.next()) {
 

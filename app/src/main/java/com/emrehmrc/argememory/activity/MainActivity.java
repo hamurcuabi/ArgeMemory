@@ -26,8 +26,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -36,6 +42,8 @@ import com.emrehmrc.argememory.adapter.ExpandListAdapter;
 import com.emrehmrc.argememory.adapter.MainTaskAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.LinearLayoutManagerWithSmoothScroller;
+import com.emrehmrc.argememory.helper.OnSwipeTouchListener;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.MainTaskModel;
 import com.emrehmrc.argememory.popup.DepartmentPopup;
@@ -90,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView
     private SimpleDateFormat dateDefault;
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
+    ProgressBar pbLoading;
+    FrameLayout calender;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +191,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView
                 return false;
             }
         });
+        recyclerView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
+            public void onSwipeTop() {
+/*
+               TranslateAnimation animate = new TranslateAnimation(0,0,0,-calender.getHeight());
+               animate.setDuration(500);
+               animate.setFillAfter(true);
+               layout.startAnimation(animate);
+                calender.setVisibility(View.INVISIBLE);
+                */
+// slide-up animation
+                Animation slideUp = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_up);
+
+                if (calender.getVisibility() == View.VISIBLE) {
+                    calender.setVisibility(View.GONE);
+                    layout.startAnimation(slideUp);
+                }
+               // calender.setVisibility(View.GONE);
+
+            }
+            public void onSwipeBottom() {
+                /*
+                TranslateAnimation animate = new TranslateAnimation(0,0,0,calender.getHeight());
+                animate.setDuration(500);
+                animate.setFillAfter(true);
+                layout.startAnimation(animate);
+                calender.setVisibility(View.VISIBLE);*/
+               // calender.setVisibility(View.VISIBLE);
+                Animation slideDown = AnimationUtils.loadAnimation(MainActivity.this, R.anim
+                        .slide_down);
+                if (calender.getVisibility() == View.GONE) {
+                    layout.startAnimation(slideDown);
+                    calender.setVisibility(View.VISIBLE);
+
+                }
+
+            }
+        });
     }
 
     private void ExpandListPrepare() {
@@ -224,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         imgAvatar = headerView.findViewById(R.id.imgProfil);
         txtUsername = headerView.findViewById(R.id.txtUsername);
         txtUsermail = headerView.findViewById(R.id.txtUsermail);
+        pbLoading=findViewById(R.id.pbLoadMain);
 
         connectionClass = new ConnectionClass();
         dateDefault = new SimpleDateFormat("yyyy-MM-dd",
@@ -247,6 +296,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         rootView = getWindow().getDecorView().getRootView();
         eng = "en";
         tr = "";
+        calender=findViewById(R.id.frame_calender);
+        layout=findViewById(R.id.translayout);
+
 
     }
 
@@ -365,10 +417,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_showshare) {
+            Intent i = new Intent(getApplicationContext(), ShowAllShareActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_share) {
-            Intent i = new Intent(getApplicationContext(), DepartmentPopup.class);
+            Intent i = new Intent(getApplicationContext(), ShareActivity.class);
             startActivity(i);
 
 
@@ -379,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView
                 new CustomToast().Show_Toast(getApplicationContext(),rootView,"Türkçe Dili " +
                         "Seçildi",Utils.INFO);
                 lang=false;
-                
+
             } else {
                 changeLocale(eng);
                 new CustomToast().Show_Toast(getApplicationContext(),rootView,"İngilizce Dili " +
@@ -417,6 +471,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView
             hset = new HashSet<>();
             datalist.clear();
             recyclerView.setAdapter(null);
+            pbLoading.setVisibility(View.VISIBLE);
 
         }
 
@@ -428,7 +483,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView
             recyclerView.setAdapter(mainTaskAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
+           // recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothScroller(getApplicationContext()));
             //  String dateInString = "2018-04-27";
             txtCountTask.setText("GÖREV LİSTESİ(" + datalist.size() + ")");
             for (int i = 0; i < datalist.size(); i++) {
@@ -443,6 +499,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView
 
                 Event ev1 = new Event(Color.RED, date.getTime(), "TASK");
                 compactCalendar.addEvent(ev1);
+                pbLoading.setVisibility(View.GONE);
 
             }
 

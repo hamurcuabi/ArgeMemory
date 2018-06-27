@@ -8,11 +8,13 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.text.Html;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,7 +39,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class NotificationServices extends Service {
-    final static int PERIOD = 10000;
+    final static int PERIOD = 30000;
     final static int DELAY = 0;
     Context context;
     Notification notification;
@@ -45,7 +47,8 @@ public class NotificationServices extends Service {
     float dolar = 0, dolarlast = 0;
     SharedPreferences preferences, sharedpreferences;
     ConnectionClass connectionClass;
-    int taskCount = 0;
+    int notfCount=0;
+    String memberid="",msg="";
 
     @Nullable
     @Override
@@ -56,27 +59,35 @@ public class NotificationServices extends Service {
     @Override
     public void onCreate() {
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        preferences = getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
+        memberid = preferences.getString(Utils.ID, "");
         context = getApplicationContext();
-        //Toast.makeText(this, "Servis Çalıştı", Toast.LENGTH_SHORT).show();
-        timer = new Timer();
+        timer=new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                getMainTasks();
+                getNotifications();
             }
         }, DELAY, PERIOD);
+
         connectionClass = new ConnectionClass();
+    }
+
+    private void getNotifications() {
+        Notifications notifications=new Notifications();
+        String quer=" select TOP 1 MESSAGE,(select COUNT(*) from SYSTEMNOTIFICATION where " +
+                "(MEMBERID='"+memberid+"' and ISREADANDROID='0') )  as NOTIFNO\n" +
+                "  from SYSTEMNOTIFICATION where (MEMBERID='"+memberid+"' and ISREADANDROID='0') " +
+                "order by (DATE)";
+        notifications.execute(quer);
     }
 
     private void sendNotification(String msj) {
         long when = System.currentTimeMillis();//notificationın ne zaman gösterileceği
-        String baslik = "Dolar Yükseldi!!";//notification başlık
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("pending", Utils.PENDING_FROM_NOTİFİATİON);
         PendingIntent pending = PendingIntent.getActivity(context, 1, intent, 0);
-
-        //Notificationa tıklanınca açılacak activityi belirliyoruz
         notification = new Notification(R.mipmap.ic_launcher, "Yeni Bildirim", when);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
@@ -89,10 +100,12 @@ public class NotificationServices extends Service {
 
             }
         } else {
-            // Use new API
             Notification.Builder builder = new Notification.Builder(context)
                     .setContentIntent(pending)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText("Ar-GE BİLDİRİM ("+notfCount+")")
+                    .setSmallIcon(R.drawable.argenotfif)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                            R.mipmap.logomipmap))
                     .setContentTitle(msj);
             notification = builder.build();
         }
@@ -143,29 +156,19 @@ public class NotificationServices extends Service {
         MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void getMainTasks() {
-        DataBase db = new DataBase(getApplicationContext());
-        String memberid = db.SelectByIdMemberId(1);
-        MainTasks mainTasks = new MainTasks();
-        String query = "select  * from VW_MAINTASKLIST where ID in" +
-                "(select ID from VW_TASKMEMBER where  (PUBLISHERID='" + memberid + "' or " +
-                "MEMBERID='" + memberid + "') and ISFINISH='0') order by (ID)";
-
-        mainTasks.execute(query);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
+        timer.cancel();
+        timer.purge();
 
-    public class MainTasks extends AsyncTask<String, String, String> {
+    }
+    private class Notifications extends AsyncTask<String, String, String> {
         String z = "";
         Boolean isSuccess = false;
 
         @Override
         protected void onPreExecute() {
-            taskCount = 0;
 
         }
 
@@ -173,17 +176,9 @@ public class NotificationServices extends Service {
         @Override
         protected void onPostExecute(String r) {
 
-            DataBase db = new DataBase(getApplicationContext());
-            String old = db.SelectById(1);
-            if(old.equals(""))old=String.valueOf(0);
-
-            try {
-                if (taskCount > Integer.parseInt(old)) {
-                    db.Update(1, String.valueOf(taskCount));
-                    sendNotification("Yeni Bir Göreviniz Var!");
-
-                }
-            } catch (Exception ex) {
+            if(notfCount>0){
+                String htmldes = String.valueOf(Html.fromHtml(msg));
+                sendNotification(htmldes);
             }
 
 
@@ -205,8 +200,8 @@ public class NotificationServices extends Service {
                     ResultSet rs = stmt.executeQuery(params[0]);
 
                     while (rs.next()) {
-
-                        taskCount++;
+                        notfCount=Integer.valueOf(rs.getString("NOTIFNO"));
+                        msg=rs.getString("MESSAGE");
                         isSuccess = true;
                     }
 
@@ -215,6 +210,7 @@ public class NotificationServices extends Service {
             } catch (Exception ex) {
                 isSuccess = false;
                 z = "Hata";
+                notfCount=0;
             }
 
             return z;

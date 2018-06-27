@@ -8,20 +8,50 @@ public class SingletonShare {
     private static ArrayList<PersonelModel> persList;
     private static ArrayList<TagModel> tagList;
     private static String comment;
-    private String newTag;
+    private static String newTag;
+    //Dialogfragment Despcription
+    private  String sharedId;
+    private String  oldDescp;
+
+
+
+    public String getOldDescp() {
+        return oldDescp;
+    }
+
+    public void setOldDescp(String oldDescp) {
+        this.oldDescp = oldDescp;
+    }
 
     private SingletonShare() {
+    }
+
+    public String getSharedId() {
+        return sharedId;
+    }
+
+    public void setSharedId(String sharedId) {
+        this.sharedId = sharedId;
     }
 
     public static SingletonShare getInstance() {
         if (instance == null) {
             instance = new SingletonShare();
+            depList = new ArrayList<>();
+            persList = new ArrayList<>();
+            tagList = new ArrayList<>();
+            newTag = "";
+
         }
         return instance;
     }
 
     public static void setInstance(SingletonShare instance) {
         SingletonShare.instance = instance;
+    }
+
+    public void setNull() {
+        instance = null;
     }
 
     public String getNewTag() {

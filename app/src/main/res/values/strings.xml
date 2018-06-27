@@ -44,6 +44,46 @@
     <string name="dep_activity">Departman Seçimi</string>
     <string name="pers_activity">Personel Seçimi</string>
     <string name="tag_activity">Etiket Seçimi</string>
+    <string name="makeshare">Paylaşım Yap</string>
+    <string name="showallshare">Paylaşımları Gör</string>
+    <string name="select_date">Tarih Seç</string>
+    <string name="select_time">Saat Seç</string>
+    <string name="sharing">Paylaşımlar</string>
+    <string name="startdate">Baş. Tarihi</string>
+    <string name="enddate">Bitiş Tarihi</string>
+    <string name="txtsharing">Yapılan Paylaşımlar</string>
+    <string name="updatedescp">Açıklamayı Güncelle</string>
+    <string name="crash">Beklenmeyen Bir Hata Oluştu:(</string>
+    <string name="raporet">Rapor Et</string>
+    <string name="raporetme">Kapat</string>
+    <string name="commnets">Yorumlar</string>
+    <string name="yorumyap">Paylaş</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="menuList">
+        <item>Anasayfa</item>
+        <item>Profil</item>
+        <item>Görev Paylaş</item>
+        <item>Paylaşımlar</item>
+        <item>Mesajlar</item>
+        <item>Bildirimler</item>
+        <item>Ayarlar</item>
+        <item>Çıkış</item>
+    </string-array>
+
+
+    <string-array name="menuIconList">
+
+        <item>@drawable/home</item>
+        <item>@drawable/profile</item>
+        <item>@drawable/sharetask</item>
+        <item>@drawable/getsharetask</item>
+        <item>@drawable/message</item>
+        <item>@drawable/notification</item>
+        <item>@drawable/settings</item>
+        <item>@drawable/exit</item>
+
+    </string-array>
 
 
 </resources>

@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +27,10 @@ import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.DepartmentPopupAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.LinearLayoutManagerWithSmoothScroller;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.DepartmentModel;
+import com.emrehmrc.argememory.model.PersonelModel;
 import com.emrehmrc.argememory.model.SingletonShare;
 
 import java.io.File;
@@ -39,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DepartmentPopup extends AppCompatActivity {
+
 
     RecyclerView recyclerView;
     DepartmentPopupAdapter adapter;
@@ -85,10 +89,13 @@ public class DepartmentPopup extends AppCompatActivity {
 
                 }
 
+                //set dep list
                 SingletonShare share = SingletonShare.getInstance();
                 share.setDepList(selectedList);
-                Intent intent = new Intent(getApplicationContext(), PersonelPopup.class);
-                startActivity(intent);
+                //clear perslist
+                share.setPersList(new ArrayList<PersonelModel>());
+
+                finish();
 
             }
         });
@@ -150,6 +157,8 @@ public class DepartmentPopup extends AppCompatActivity {
         loginPreferences = getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
         companiesid = loginPreferences.getString(Utils.COMPANIESID, "");
         rootView = getWindow().getDecorView().getRootView();
+
+
     }
 
     //Take SS
@@ -280,7 +289,8 @@ public class DepartmentPopup extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
+       //     recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothScroller(getApplicationContext()));
             txtall.setText(getText(R.string.all) + "(" + datalist.size() + ")");
 
 

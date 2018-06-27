@@ -1,0 +1,194 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/zyonetim"
+    >
+
+    <EditText
+        android:id="@+id/in_date"
+        style="@style/edt_default_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edt_default_input"
+        android:focusable="false"
+        android:hint="@string/startdate"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/in_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_date" />
+
+    <Button
+
+        android:id="@+id/btn_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/in_date"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/in_date"
+        android:layout_toRightOf="@+id/in_date"
+        android:background="@drawable/btn_selector"
+        android:text="@string/startdate"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/txtOK"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:visibility="gone"
+        android:background="@drawable/edt_default_input"
+        android:id="@+id/in_time"
+        style="@style/edt_default_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/in_date"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:focusable="false"
+        android:hint="@string/enddate"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/in_date"
+        app:layout_constraintTop_toBottomOf="@+id/btn_time" />
+
+    <Button
+        android:id="@+id/btn_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn_date"
+        android:layout_alignStart="@+id/btn_date"
+        android:layout_below="@+id/btn_date"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_selector"
+        android:text="@string/enddate"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtOK"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:background="@color/white"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAll">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/allsharerecycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabAllShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/goback"
+                app:backgroundTint="@color/zyonetim"
+               />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/pbDep"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAll" />
+
+    <TextView
+        android:id="@+id/txtOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/date"
+        app:layout_constraintBottom_toTopOf="@+id/in_date"
+        app:layout_constraintEnd_toStartOf="@+id/btn_time"
+        app:layout_constraintStart_toEndOf="@+id/btn_date"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtAll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@drawable/tag_white"
+        android:padding="5dp"
+        android:text="@string/txtsharing"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/allsharerecycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_date" />
+
+</android.support.constraint.ConstraintLayout>

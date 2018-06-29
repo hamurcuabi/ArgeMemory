@@ -41,8 +41,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-import it.sauronsoftware.ftp4j.FTPClient;
-import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 
 
 public class FileActivity extends Activity {
@@ -138,27 +136,6 @@ public class FileActivity extends Activity {
 
     public void uploadFile(File fileName) {
 
-        FTPClient client = new FTPClient();
-        try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy =
-                        new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-            }
-
-            client.connect(FTP_HOST, 21);
-            client.login(FTP_USER, FTP_PASS);
-            client.setType(FTPClient.TYPE_BINARY);
-            client.changeDirectory("/httpdocs/images/deneme/");
-            client.upload(fileName, new MyTransferListener());
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                client.disconnect(true);
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
 
     }
 
@@ -307,7 +284,7 @@ public class FileActivity extends Activity {
         return imgString;
     }
 
-    public class MyTransferListener implements FTPDataTransferListener {
+    public class MyTransferListener  {
 
         public void started() {
 

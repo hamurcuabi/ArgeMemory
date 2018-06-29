@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.activity.LoginActivity;
+import com.emrehmrc.argememory.activity.SLoginActivity;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.helper.MySingleton;
 import com.emrehmrc.argememory.helper.Utils;
@@ -85,7 +86,7 @@ public class NotificationServices extends Service {
     private void sendNotification(String msj) {
         long when = System.currentTimeMillis();//notificationın ne zaman gösterileceği
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, SLoginActivity.class);
         intent.putExtra("pending", Utils.PENDING_FROM_NOTİFİATİON);
         PendingIntent pending = PendingIntent.getActivity(context, 1, intent, 0);
         notification = new Notification(R.mipmap.ic_launcher, "Yeni Bildirim", when);

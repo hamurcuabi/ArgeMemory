@@ -12,15 +12,25 @@ public class MainTaskModel implements Serializable {
     private String taskId;
     private String subTaskCount;
 
+    public MainTaskModel(String taskDate, String taskCreater, String taskTag, String taskDescription, String taskCountMan, String taskId, String subTaskCount) {
+        this.taskDate = taskDate;
+        this.taskCreater = taskCreater;
+        this.taskTag = taskTag;
+        this.taskDescription = taskDescription;
+        this.taskCountMan = taskCountMan;
+        this.taskId = taskId;
+        this.subTaskCount = subTaskCount;
+    }
+
+    public MainTaskModel() {
+    }
+
     public String getSubTaskCount() {
         return subTaskCount;
     }
 
     public void setSubTaskCount(String subTaskCount) {
         this.subTaskCount = subTaskCount;
-    }
-
-    public MainTaskModel() {
     }
 
     public String getTaskId() {

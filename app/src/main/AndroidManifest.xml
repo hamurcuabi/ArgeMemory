@@ -7,9 +7,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/logomipmap"
+        android:icon="@mipmap/iconz"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -22,14 +23,10 @@
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".popup.TaskManPopup"
+            android:name=".popup.STaskManPopup"
             android:theme="@style/TaskMans" />
         <activity android:name=".activity.VolleyDemo">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service android:name=".services.NotificationServices" />
@@ -66,6 +63,15 @@
             android:name=".popup.CommentPopup"
             android:theme="@style/CustomNoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+        <activity android:name=".activity.SLoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.SMainActivityNavDrawer">
+
+        </activity>
     </application>
 
 </manifest>

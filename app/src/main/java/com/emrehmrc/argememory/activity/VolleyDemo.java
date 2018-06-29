@@ -22,7 +22,11 @@ import android.widget.Toast;
 
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.connection.ConnectionClass;
+import com.emrehmrc.argememory.model.MainTaskModel;
+import com.emrehmrc.argememory.model.MemberModel;
 import com.emrehmrc.argememory.services.NotificationServices;
+import com.emrehmrc.argememory.soap.MainTaskSoap;
+import com.emrehmrc.argememory.soap.MemberLoginSoap;
 
 
 import java.io.ByteArrayOutputStream;
@@ -32,6 +36,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class VolleyDemo extends AppCompatActivity {
 
@@ -46,6 +51,8 @@ public class VolleyDemo extends AppCompatActivity {
     byte[] byteArray;
     // End Layouts buttons, imageview extra
     String encodedImage;
+    public List<MainTaskModel> mainTaskModels;
+
 
 
     @Override
@@ -55,6 +62,16 @@ public class VolleyDemo extends AppCompatActivity {
         final View view = getWindow().getDecorView().getRootView();
         btnvolley = findViewById(R.id.btnvolley);
         tv = findViewById(R.id.tvSoap);
+
+            final MainTaskSoap mainTaskSoap=new MainTaskSoap();
+            Thread thread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mainTaskModels=mainTaskSoap.mainTask("A794A61A-4060-4B23-8C15-4BD873981295");
+                }
+            });
+            thread.start();
+
 
         /*
         StringRequest request=new StringRequest(Request.Method.GET, "https://www.google.com", new

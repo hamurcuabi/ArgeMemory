@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.model.MainTaskModel;
-import com.emrehmrc.argememory.popup.TaskManPopup;
+import com.emrehmrc.argememory.popup.STaskManPopup;
 
 import java.util.ArrayList;
 
@@ -100,7 +100,7 @@ public class MainTaskAdapter extends RecyclerView.Adapter<MainTaskAdapter.Myview
                 @Override
                 public void onClick(View v) {
 
-                    Intent i = new Intent(mContentxt, TaskManPopup.class);
+                    Intent i = new Intent(mContentxt, STaskManPopup.class);
                     i.putExtra("id", clicked.getTaskId());
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContentxt.startActivity(i);

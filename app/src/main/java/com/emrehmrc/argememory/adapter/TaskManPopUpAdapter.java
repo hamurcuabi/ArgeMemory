@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
+import com.emrehmrc.argememory.model.TaskManModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,11 +17,11 @@ import java.util.ArrayList;
 public class TaskManPopUpAdapter extends RecyclerView.Adapter<TaskManPopUpAdapter.MyviewHolder>
         implements Serializable {
 
-    ArrayList<String> datalist;
+    ArrayList<TaskManModel> datalist;
     LayoutInflater layoutInflater;
     Context mContentxt;
 
-    public TaskManPopUpAdapter(Context context, ArrayList<String> data) {
+    public TaskManPopUpAdapter(Context context, ArrayList<TaskManModel> data) {
         layoutInflater = LayoutInflater.from(context);
         this.datalist = data;
         this.mContentxt=context;
@@ -39,7 +40,7 @@ public class TaskManPopUpAdapter extends RecyclerView.Adapter<TaskManPopUpAdapte
     @Override
     public void onBindViewHolder(final MyviewHolder holder, int position) {
 
-        String clicked = datalist.get(position);
+        TaskManModel clicked = datalist.get(position);
         holder.setData(clicked, position);
 
 
@@ -57,13 +58,13 @@ public class TaskManPopUpAdapter extends RecyclerView.Adapter<TaskManPopUpAdapte
 
         public MyviewHolder(View itemView) {
             super(itemView);
-            txtFullName=(TextView)itemView.findViewById(R.id.tvFullName);
+            txtFullName=itemView.findViewById(R.id.tvFullName);
 
         }
 
         @SuppressLint("NewApi")
-        public void setData(final String clicked, int position) {
-            this.txtFullName.setText(clicked);
+        public void setData(final TaskManModel clicked, int position) {
+            this.txtFullName.setText(clicked.getMemberName());
 
         }
     }

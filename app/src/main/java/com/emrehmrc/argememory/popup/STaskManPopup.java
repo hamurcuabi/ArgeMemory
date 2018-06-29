@@ -16,22 +16,23 @@ import android.widget.ProgressBar;
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.TaskManPopUpAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
+import com.emrehmrc.argememory.model.TaskManModel;
+import com.emrehmrc.argememory.soap.TaskMembersSoap;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class TaskManPopup extends AppCompatActivity {
+public class STaskManPopup extends AppCompatActivity {
 
     RecyclerView recyclerView;
     TaskManPopUpAdapter adapter;
-    ArrayList<String> datalist;
+    ArrayList<TaskManModel> datalist;
     String id = "";
-    ConnectionClass connectionClass;
     ProgressBar pbL;
+    TaskMembersSoap taskMembersSoap;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_man_pop_up);
@@ -40,7 +41,6 @@ public class TaskManPopup extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getExtras().getString("id");
         pbL=findViewById(R.id.pbL);
-        connectionClass = new ConnectionClass();
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
@@ -48,9 +48,7 @@ public class TaskManPopup extends AppCompatActivity {
         recyclerView = findViewById(R.id.popuptaskmans);
         datalist = new ArrayList<>();
         MainTasks mainTasks = new MainTasks();
-        String query = "select MEMBERFULLNAME from VW_TASKMEMBER where " +
-                "ID='" + id + "'";
-        mainTasks.execute(query);
+                mainTasks.execute("");
 
 
     }
@@ -69,7 +67,6 @@ public class TaskManPopup extends AppCompatActivity {
 
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         protected void onPostExecute(String r) {
 
@@ -87,24 +84,7 @@ public class TaskManPopup extends AppCompatActivity {
 
             try {
 
-                Connection con = connectionClass.CONN();
-                if (con == null) {
-                    z = "Bağlantı Hatası";
-                } else {
-
-
-                    Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery(params[0]);
-
-                    while (rs.next()) {
-
-                        String gecici = (rs.getString("MEMBERFULLNAME"));
-                        datalist.add(gecici);
-                        isSuccess = true;
-                    }
-
-
-                }
+             datalist=taskMembersSoap.taskMembers(id);
             } catch (Exception ex) {
                 isSuccess = false;
                 z = "Hata";

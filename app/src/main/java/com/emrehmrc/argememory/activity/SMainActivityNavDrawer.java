@@ -48,6 +48,7 @@ import com.emrehmrc.argememory.adapter.MainTaskAdapter;
 import com.emrehmrc.argememory.adapter.NavDrawerListAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.helper.OnSwipeTouchListener;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.MainTaskModel;
@@ -120,6 +121,7 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_nav_drawer);
         init();
         newNav();

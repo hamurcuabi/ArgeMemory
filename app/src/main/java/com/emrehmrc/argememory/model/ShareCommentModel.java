@@ -8,6 +8,12 @@ public class ShareCommentModel implements Serializable{
      private String date;
      private String comment;
 
+    public ShareCommentModel(String commenter, String date, String comment) {
+        this.commenter = commenter;
+        this.date = date;
+        this.comment = comment;
+    }
+
     public ShareCommentModel() {
     }
 

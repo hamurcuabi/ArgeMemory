@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.emrehmrc.argememory.R;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.interfaces.DefaultActivitiy;
 import com.squareup.picasso.Picasso;
@@ -20,6 +21,7 @@ public class SplashActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_splash);
         init();
 

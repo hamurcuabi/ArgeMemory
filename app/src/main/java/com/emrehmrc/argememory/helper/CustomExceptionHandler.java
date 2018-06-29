@@ -3,10 +3,9 @@ package com.emrehmrc.argememory.helper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
-import com.emrehmrc.argememory.popup.CrashPopup;
+import com.emrehmrc.argememory.popup.SCrashPopup;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -55,7 +54,7 @@ public class CustomExceptionHandler implements
         errorReport.append(Build.VERSION.INCREMENTAL);
         errorReport.append(LINE_SEPARATOR);
 
-         Intent intent = new Intent(myContext, CrashPopup.class);
+         Intent intent = new Intent(myContext, SCrashPopup.class);
          intent.putExtra("error", errorReport.toString());
          myContext.startActivity(intent);
         Log.e("CRASH",errorReport.toString());

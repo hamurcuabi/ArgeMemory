@@ -57,7 +57,7 @@
         <activity android:name=".activity.NavDrawerActivity" />
         <activity android:name=".activity.MainActivityNavDrawer" />
         <activity
-            android:name=".popup.CrashPopup"
+            android:name=".popup.SCrashPopup"
             android:theme="@style/CustomNoActionBar" />
         <activity
             android:name=".popup.CommentPopup"

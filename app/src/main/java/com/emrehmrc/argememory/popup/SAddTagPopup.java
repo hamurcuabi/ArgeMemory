@@ -127,9 +127,7 @@ public class SAddTagPopup extends AppCompatDialogFragment {
         protected String doInBackground(String... params) {
 
             try {
-                tagPopupInsertSoap.insertTag(companiesid,edtNewTag.getText().toString());
-                isok=true;
-
+                isok=tagPopupInsertSoap.insertTag(companiesid,edtNewTag.getText().toString());
 
             } catch (Exception ex) {
 

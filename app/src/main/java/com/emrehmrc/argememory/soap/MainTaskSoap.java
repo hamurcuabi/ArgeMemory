@@ -65,9 +65,9 @@ public class MainTaskSoap {
                     taskDescription = "";
                 }
 
-               taskDate= parseDate(taskDate);
-
-                taskModelArrayList.add(new MainTaskModel(taskDate, taskCreater, taskTag,
+                    if(taskDate.length()<19)taskDate="0"+taskDate;
+                taskModelArrayList.add(new MainTaskModel(taskDate.substring(8), taskCreater,
+                        taskTag,
                         taskDescription, taskCountMan, taskId, subTaskCount));
 
             }
@@ -78,14 +78,7 @@ public class MainTaskSoap {
         return taskModelArrayList;
     }
 
-    private String parseDate(String taskDate) {
-        String date="";
-        for(int i=0;i< taskDate.length();i++){
-            if(taskDate.charAt(i)!='T')date=date+taskDate.charAt(i);
-            else date=date+" ";
-        }
-        return date;
-    }
+
 
     public ArrayList<MainTaskModel> calendarTask(String memberId,String dateStart,String dateEnd) {
 

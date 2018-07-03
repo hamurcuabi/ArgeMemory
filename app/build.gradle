@@ -3,6 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
+        ndk {
+            abiFilters 'armeabi', 'x86'//or armeabi-v7a、arm64-v8a、x86
+        }
         applicationId "com.emrehmrc.argememory"
         minSdkVersion 16
         targetSdkVersion 27
@@ -16,6 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -40,8 +44,7 @@ dependencies {
     implementation 'com.github.ishan1604:tsview:1.0.0'
     implementation 'com.github.glomadrian:Grav:1.1'
     implementation "me.leolin:ShortcutBadger:1.1.21@aar"
-
-
+    implementation 'com.zxy.android:tiny:0.1.0'
 
 
 }

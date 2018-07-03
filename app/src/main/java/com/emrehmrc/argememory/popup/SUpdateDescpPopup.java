@@ -16,33 +16,29 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.emrehmrc.argememory.R;
-import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.SingletonShare;
-import com.emrehmrc.argememory.soap.AddTagPopupInsertSoap;
+import com.emrehmrc.argememory.soap.UpdateDescPopupSoap;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
-import static android.content.Context.MODE_PRIVATE;
-
-public class SAddTagPopup extends AppCompatDialogFragment {
+public class SUpdateDescpPopup extends AppCompatDialogFragment {
 
     EditText edtNewTag;
     Button btnOk, btnCancel;
     boolean isok;
     String companiesid = "";
     View rootView;
-    DialogListener dialogListener;
+    DialogListenerDescp dialogListener;
+    UpdateDescPopupSoap soap;
     private SharedPreferences loginPreferences;
-    AddTagPopupInsertSoap tagPopupInsertSoap;
+    private String shareid;
+    private String descp;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            dialogListener = (DialogListener) context;
+            dialogListener = (DialogListenerDescp) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must be implemnted dialoglistener " +
                     "interface");
@@ -53,18 +49,21 @@ public class SAddTagPopup extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.tag_add_layout, null);
+        View view = layoutInflater.inflate(R.layout.update_descp, null);
         builder.setView(view);
-        tagPopupInsertSoap=new AddTagPopupInsertSoap();
 
-        loginPreferences = getActivity().getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
-        companiesid = loginPreferences.getString(Utils.COMPANIESID, "");
+        SingletonShare singletonShare = SingletonShare.getInstance();
+        shareid = singletonShare.getSharedId();
+        descp = singletonShare.getOldDescp();
+        soap = new UpdateDescPopupSoap();
+
+
         rootView = getActivity().getWindow().getDecorView().getRootView();
-
 
         edtNewTag = view.findViewById(R.id.edtNewTag);
         btnOk = view.findViewById(R.id.btnAddTag);
         btnCancel = view.findViewById(R.id.btnCancelTag);
+        edtNewTag.setText(descp);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,11 +75,9 @@ public class SAddTagPopup extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 if (!edtNewTag.getText().toString().trim().isEmpty()) {
-                    SingletonShare singletonShare = SingletonShare.getInstance();
-                    singletonShare.setNewTag(edtNewTag.getText().toString());
 
-                    InsertTag insertTag = new InsertTag();
-                    insertTag.execute("");
+                    UpdateDescp updateDescp = new UpdateDescp();
+                    updateDescp.execute(edtNewTag.getText().toString().trim());
                     dialogListener.isClosed(true);
                 } else {
                     new CustomToast().Show_Toast(getActivity(), rootView, "Yazı Alanı Boş Bırakılamaz", Utils.ERROR);
@@ -90,6 +87,7 @@ public class SAddTagPopup extends AppCompatDialogFragment {
         });
         return builder.create();
 
+
     }
 
     @Override
@@ -97,11 +95,11 @@ public class SAddTagPopup extends AppCompatDialogFragment {
         super.onDismiss(dialog);
     }
 
-    public interface DialogListener {
+    public interface DialogListenerDescp {
         void isClosed(boolean isclosed);
     }
 
-    private class InsertTag extends AsyncTask<String, String, String> {
+    private class UpdateDescp extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -114,7 +112,8 @@ public class SAddTagPopup extends AppCompatDialogFragment {
         protected void onPostExecute(String r) {
 
             if (isok) {
-                new CustomToast().Show_Toast(getActivity(), rootView, "Başarıyla Eklendi", Utils.SUCCESS);
+                new CustomToast().Show_Toast(getActivity(), rootView, "Başarıyla Güncellendi",
+                        Utils.SUCCESS);
                 dismiss();
 
             } else {
@@ -128,11 +127,10 @@ public class SAddTagPopup extends AppCompatDialogFragment {
         protected String doInBackground(String... params) {
 
             try {
-                isok=tagPopupInsertSoap.insertTag(companiesid,edtNewTag.getText().toString());
 
+                isok = soap.updateDesc(shareid, params[0]);
             } catch (Exception ex) {
-
-                isok=false;
+                isok = false;
             }
 
             return "";

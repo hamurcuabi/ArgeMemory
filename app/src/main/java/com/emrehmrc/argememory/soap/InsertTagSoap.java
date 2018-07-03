@@ -3,31 +3,28 @@ package com.emrehmrc.argememory.soap;
 import android.util.Log;
 
 import com.emrehmrc.argememory.helper.Utils;
-import com.emrehmrc.argememory.model.MainTaskModel;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.util.ArrayList;
-
-public class AddTagPopupInsertSoap {
+public class InsertTagSoap {
 
     private static final String NAMESPACE = "http://argememory.com/";
-    private static final String METHODE = "AddTag";
-    private static final String SOAP_ACTION = "http://argememory.com/AddTag";
-    private static final String URL = "http://www.argememory.com/webservice/Tag.asmx";
+    private static final String METHODE = "InsertShareTag";
+    private static final String SOAP_ACTION = "http://argememory.com/InsertShareTag";
+    private static final String URL = "http://www.argememory.com/webservice/Share.asmx";
+    boolean isOk = true;
     private SoapObject soapObject;
     private SoapSerializationEnvelope soapSerializationEnvelope;
     private HttpTransportSE httpsTransportSE;
-    boolean isOk=true;
 
-    public boolean insertTag(String compId,String name) {
+    public boolean insertTag(String shareId, String tagId) {
 
         soapObject = new SoapObject(NAMESPACE, METHODE);
-        soapObject.addProperty("compId", compId);
-        soapObject.addProperty("name", name);
+        soapObject.addProperty("shareId", shareId);
+        soapObject.addProperty("tagId", tagId);
         soapObject.addProperty("api", Utils.API_KEY);
 
         soapSerializationEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -40,13 +37,12 @@ public class AddTagPopupInsertSoap {
         try {
 
             httpsTransportSE.call(SOAP_ACTION, soapSerializationEnvelope);
-
             SoapObject response = (SoapObject) soapSerializationEnvelope.bodyIn;
-                String ok = response.getProperty(0).toString();
-                if(ok=="true"){
-                    isOk=true;
-                }
 
+            String ok = response.getProperty(0).toString();
+            if (ok == "true") {
+                isOk = true;
+            }
 
 
         } catch (Exception ex) {

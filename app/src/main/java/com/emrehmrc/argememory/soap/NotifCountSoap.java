@@ -54,5 +54,35 @@ public class NotifCountSoap {
         return notifCountModel;
     }
 
+    public String countNotifString(String memberId) {
+
+        String count="0";
+        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject.addProperty("memberId", memberId);
+        soapObject.addProperty("api", Utils.API_KEY);
+
+        soapSerializationEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        soapSerializationEnvelope.dotNet = true;
+        soapSerializationEnvelope.setOutputSoapObject(soapObject);
+
+        httpsTransportSE = new HttpTransportSE(URL);
+        httpsTransportSE.debug = true;
+
+        try {
+
+            httpsTransportSE.call(SOAP_ACTION, soapSerializationEnvelope);
+
+            SoapObject response = (SoapObject) soapSerializationEnvelope.bodyIn;
+            for (int i = 0; i < response.getPropertyCount(); i++) {
+                SoapObject responseMember = (SoapObject) response.getProperty(i);
+                 count = responseMember.getProperty("countNotif").toString();
+
+            }
+        } catch (Exception ex) {
+            Log.e("ERROR", ex.getMessage());
+        }
+        return count;
+    }
+
 
 }

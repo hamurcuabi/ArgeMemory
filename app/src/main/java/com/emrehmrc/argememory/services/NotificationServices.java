@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,6 +27,8 @@ import com.emrehmrc.argememory.activity.SLoginActivity;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.helper.MySingleton;
 import com.emrehmrc.argememory.helper.Utils;
+import com.emrehmrc.argememory.soap.InsertTagSoap;
+import com.emrehmrc.argememory.soap.NotifCountSoap;
 import com.emrehmrc.argememory.sqllite.DataBase;
 
 import org.json.JSONException;
@@ -47,9 +50,9 @@ public class NotificationServices extends Service {
     Timer timer;
     float dolar = 0, dolarlast = 0;
     SharedPreferences preferences, sharedpreferences;
-    ConnectionClass connectionClass;
     int notfCount=0;
     String memberid="",msg="";
+    NotifCountSoap notifCountSoap;
 
     @Nullable
     @Override
@@ -71,16 +74,12 @@ public class NotificationServices extends Service {
             }
         }, DELAY, PERIOD);
 
-        connectionClass = new ConnectionClass();
+       notifCountSoap=new NotifCountSoap();
     }
 
     private void getNotifications() {
         Notifications notifications=new Notifications();
-        String quer=" select TOP 1 MESSAGE,(select COUNT(*) from SYSTEMNOTIFICATION where " +
-                "(MEMBERID='"+memberid+"' and ISREADANDROID='0') )  as NOTIFNO\n" +
-                "  from SYSTEMNOTIFICATION where (MEMBERID='"+memberid+"' and ISREADANDROID='0') " +
-                "order by (DATE)";
-        notifications.execute(quer);
+        notifications.execute("");
     }
 
     private void sendNotification(String msj) {
@@ -103,10 +102,10 @@ public class NotificationServices extends Service {
         } else {
             Notification.Builder builder = new Notification.Builder(context)
                     .setContentIntent(pending)
-                    .setContentText("Ar-GE BİLDİRİM ("+notfCount+")")
+                    .setContentText(" BİLDİRİM ("+notfCount+")")
                     .setSmallIcon(R.drawable.argenotfif)
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                            R.mipmap.logomipmap))
+                            R.drawable.logo_ico))
                     .setContentTitle(msj);
             notification = builder.build();
         }
@@ -118,44 +117,6 @@ public class NotificationServices extends Service {
         nm.notify(0, notification);
     }
 
-    private void getDolar() {
-        String url = "http://www.doviz.gen.tr/doviz_json.asp?version=1.2";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        dolar = preferences.getFloat("dolar", 0);
-
-                        try {
-                            //JSONObject object=response.getJSONObject("dolar");
-                            dolarlast = Float.parseFloat((response.getString("dolar")));
-                            if (dolar > dolarlast) {
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putFloat("dolar", dolarlast);
-                                editor.commit();
-                                sendNotification("Dolar Yükseldi");
-
-                            } else if (dolarlast > dolar) {
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putFloat("dolar", dolarlast);
-                                editor.commit();
-                                sendNotification("Dolar Düştü");
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
-    }
 
     @Override
     public void onDestroy() {
@@ -165,9 +126,6 @@ public class NotificationServices extends Service {
 
     }
     private class Notifications extends AsyncTask<String, String, String> {
-        String z = "";
-        Boolean isSuccess = false;
-
         @Override
         protected void onPreExecute() {
 
@@ -176,45 +134,20 @@ public class NotificationServices extends Service {
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         protected void onPostExecute(String r) {
-
-            if(notfCount>0){
-                String htmldes = String.valueOf(Html.fromHtml(msg));
-                sendNotification(htmldes);
-            }
-
-
+           if(notfCount>0)sendNotification(" AR-GE ");
         }
-
 
         @Override
         protected String doInBackground(String... params) {
 
             try {
-
-                Connection con = connectionClass.CONN();
-                if (con == null) {
-                    z = "Bağlantı Hatası";
-                } else {
-
-
-                    Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery(params[0]);
-
-                    while (rs.next()) {
-                        notfCount=Integer.valueOf(rs.getString("NOTIFNO"));
-                        msg=rs.getString("MESSAGE");
-                        isSuccess = true;
-                    }
-
-
-                }
+                notfCount= Integer.valueOf(notifCountSoap.countNotifString(memberid));
             } catch (Exception ex) {
-                isSuccess = false;
-                z = "Hata";
-                notfCount=0;
+                Log.e("HATA",ex.getMessage());
+               notfCount=0;
             }
 
-            return z;
+            return "";
         }
     }
 }

@@ -10,7 +10,10 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CommentPopupFillCommentSoap {
 
@@ -53,8 +56,14 @@ public class CommentPopupFillCommentSoap {
                 String clock = responseTask2.getProperty("clock").toString();
                 String comment = responseTask2.getProperty("comment").toString();
 
+                DateFormat formatter = new SimpleDateFormat("d.M.yyyy HH:mm:ss");
+                Date datee = formatter.parse(date);
 
-                shareCommentModelArrayList.add(new ShareCommentModel(commenter, date + clock, comment));
+                formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String dt=formatter.format(datee);
+
+                shareCommentModelArrayList.add(new ShareCommentModel(commenter, dt +" "+ clock,
+                        comment));
             }
 
         } catch (Exception ex) {
@@ -84,10 +93,10 @@ public class CommentPopupFillCommentSoap {
 
         try {
             httpsTransportSE.call(SOAP_ACTION_INSERT, soapSerializationEnvelope);
+
             SoapObject response = (SoapObject) soapSerializationEnvelope.bodyIn;
-            SoapObject responseTask = (SoapObject) response.getProperty(0);
-            for (int i = 0; i < responseTask.getPropertyCount(); i++) {
-                String req = responseTask.getProperty(0).toString();
+            for (int i = 0; i < response.getPropertyCount(); i++) {
+                String req = response.getProperty(0).toString();
                 if(req.equals("true"))isOk=true;
                 else isOk=false;
 

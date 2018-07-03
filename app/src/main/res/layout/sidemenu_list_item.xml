@@ -34,7 +34,7 @@
         android:gravity="center_vertical"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingRight="40dp"
-        android:text="fsdfsd"
+        android:text="AnaSayfa"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@color/list_item_title"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -14,44 +14,40 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.emrehmrc.argememory.R;
-import com.emrehmrc.argememory.adapter.TaskManPopUpAdapter;
-import com.emrehmrc.argememory.connection.ConnectionClass;
-import com.emrehmrc.argememory.helper.CustomExceptionHandler;
-import com.emrehmrc.argememory.model.TaskManModel;
-import com.emrehmrc.argememory.soap.TaskMembersSoap;
+import com.emrehmrc.argememory.adapter.ShareMemberPopUpAdapter;
+import com.emrehmrc.argememory.soap.ShareMemberPopupSoap;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-public class STaskManPopup extends AppCompatActivity {
+public class SShareMemberPopup extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    TaskManPopUpAdapter adapter;
-    ArrayList<TaskManModel> datalist;
+    ShareMemberPopUpAdapter adapter;
+    ArrayList<String> datalist;
     String id = "";
     ProgressBar pbL;
-    TaskMembersSoap taskMembersSoap;
+    ShareMemberPopupSoap soap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_task_man_pop_up);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Intent intent = getIntent();
+        pbL = findViewById(R.id.pbL);
+
         id = intent.getExtras().getString("id");
-        pbL=findViewById(R.id.pbL);
+
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         getWindow().setLayout((int) (width * .8), (int) (height * .6));
         recyclerView = findViewById(R.id.popuptaskmans);
         datalist = new ArrayList<>();
-        taskMembersSoap=new TaskMembersSoap();
+        soap = new ShareMemberPopupSoap();
         MainTasks mainTasks = new MainTasks();
-                mainTasks.execute("");
+        mainTasks.execute(id);
 
 
     }
@@ -70,10 +66,11 @@ public class STaskManPopup extends AppCompatActivity {
 
         }
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         protected void onPostExecute(String r) {
 
-            adapter = new TaskManPopUpAdapter(getApplicationContext(), datalist);
+            adapter = new ShareMemberPopUpAdapter(getApplicationContext(), datalist);
             recyclerView.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -87,7 +84,8 @@ public class STaskManPopup extends AppCompatActivity {
 
             try {
 
-             datalist=taskMembersSoap.taskMembers(id);
+                datalist = soap.shareMemberName(params[0]);
+                isSuccess = true;
             } catch (Exception ex) {
                 isSuccess = false;
                 z = "Hata";

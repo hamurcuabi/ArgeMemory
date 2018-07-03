@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,62 +23,59 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
-import com.emrehmrc.argememory.adapter.TagPopupAdapter;
+import com.emrehmrc.argememory.adapter.DepartmentPopupAdapter;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
 import com.emrehmrc.argememory.helper.LinearLayoutManagerWithSmoothScroller;
 import com.emrehmrc.argememory.helper.Utils;
+import com.emrehmrc.argememory.model.DepartmentModel;
+import com.emrehmrc.argememory.model.PersonelModel;
 import com.emrehmrc.argememory.model.SingletonShare;
-import com.emrehmrc.argememory.model.TagModel;
-import com.emrehmrc.argememory.soap.TagPopupFillTagSoap;
+import com.emrehmrc.argememory.soap.DepartmentPopupFillSoap;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
+public class SDepartmentPopup extends AppCompatActivity {
 
-public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogListener {
 
     RecyclerView recyclerView;
-    TagPopupAdapter adapter;
-    ArrayList<TagModel> datalist;
+    DepartmentPopupAdapter adapter;
+    ArrayList<DepartmentModel> datalist;
     String companiesid = "";
-    ConnectionClass connectionClass;
     String z;
     Boolean isSuccess;
-    ArrayList<TagModel> selectedList;
-    Button btnOk, btnCancel;
+    ArrayList<DepartmentModel> selectedList;
+    Button btnOk, btnBack;
     ProgressBar pbDep;
     TextView txtall;
     boolean isall;
     ActionBar actionBar;
-    FloatingActionButton fabTag;
     View rootView;
-    TagPopupFillTagSoap tagPopupFillTagSoap;
     private SharedPreferences loginPreferences;
+    DepartmentPopupFillSoap departmentPopupFillSoap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tag_popup);
+        setContentView(R.layout.activity_department_popup);
         init();
         setClickListeners();
-        fillTag(0);
+        FillDepartment fillDepartment = new FillDepartment();
+        fillDepartment.execute(companiesid);
 
-    }
-
-    public void fillTag(int dialog) {
-        String d = String.valueOf(dialog);
-        FillTag fillTag = new FillTag();
-        fillTag.execute("", d);
     }
 
     private void setClickListeners() {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 1; i < datalist.size(); i++) {
+                for (int i = 0; i < datalist.size(); i++) {
 
                     if (datalist.get(i).isOk()) {
                         selectedList.add(datalist.get(i));
@@ -90,13 +86,23 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
                             "GEÇİLDİ", Utils.WARNİNG);
 
                 }
+
+                //set dep list
                 SingletonShare share = SingletonShare.getInstance();
-                share.setTagList(selectedList);
+                share.setDepList(selectedList);
+                //clear perslist
+                share.setPersList(new ArrayList<PersonelModel>());
+
                 finish();
 
             }
         });
-
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SDepartmentPopup.super.onBackPressed();
+            }
+        });
         txtall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +119,7 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
                     isall = true;
                 }
 
-                adapter = new TagPopupAdapter(datalist, getApplicationContext());
+                adapter = new DepartmentPopupAdapter(datalist, getApplicationContext());
                 recyclerView.setAdapter(adapter);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -121,18 +127,6 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
                 txtall.setText(getText(R.string.all) + "(" + datalist.size() + ")");
 
 
-            }
-        });
-        fabTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openAddTag();
-            }
-        });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }
@@ -145,24 +139,23 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.logo_ico);
         // setting actionbar title
-        actionBar.setTitle("3-" + getString(R.string.tag_activity));
+        actionBar.setTitle("1-" + getString(R.string.dep_activity));
         // setting actionbar subtitle
         // actionBar.setSubtitle("Giriş");
-        connectionClass = new ConnectionClass();
         recyclerView = findViewById(R.id.popupdepartmans);
         datalist = new ArrayList<>();
         selectedList = new ArrayList<>();
         btnOk = findViewById(R.id.btnOk);
+        btnBack = findViewById(R.id.btnBack);
         pbDep = findViewById(R.id.pbDep);
         txtall = findViewById(R.id.txtall);
-        fabTag = findViewById(R.id.fabaddtag);
-        btnCancel = findViewById(R.id.btnCancelTagPop);
         isall = false;
         txtall.setText(getText(R.string.all) + "(" + datalist.size() + ")");
         loginPreferences = getSharedPreferences(Utils.LOGIN, MODE_PRIVATE);
         companiesid = loginPreferences.getString(Utils.COMPANIESID, "");
         rootView = getWindow().getDecorView().getRootView();
-        tagPopupFillTagSoap = new TagPopupFillTagSoap();
+        departmentPopupFillSoap=new DepartmentPopupFillSoap();
+
     }
 
     //Take SS
@@ -206,11 +199,19 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
         intent.setDataAndType(uri, "image/*");
         startActivity(intent);
     }
-
     //Take SS
-    private void openAddTag() {
-        SAddTagPopup addTagPopup = new SAddTagPopup();
-        addTagPopup.show(getSupportFragmentManager(), "Etiket Ekleme");
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*
+        FillDepartment fillDepartment = new FillDepartment();
+        datalist.clear();
+        selectedList.clear();
+        String query = "select d.ID,d.NAME from DEPARTMANT as d ,COMPANIES as c where c" +
+                ".ID='" + companiesid + "'";
+        fillDepartment.execute(query);
+*/
     }
 
     @Override
@@ -262,16 +263,7 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void isClosed(boolean isclosed) {
-        if (isclosed) {
-            fillTag(1);
-
-        }
-    }
-
-
-    private class FillTag extends AsyncTask<String, String, String> {
+    private class FillDepartment extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -279,27 +271,23 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
             z = "";
             isSuccess = false;
             datalist = new ArrayList<>();
+            // datalist.add(new DepartmentModel(false, getString(R.string.all), ""));
             pbDep.setVisibility(View.VISIBLE);
+            selectedList = new ArrayList<>();
+            selectedList.clear();
             datalist.clear();
-
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         protected void onPostExecute(String r) {
             pbDep.setVisibility(View.GONE);
-            adapter = new TagPopupAdapter(datalist, getApplicationContext());
+            adapter = new DepartmentPopupAdapter(datalist, getApplicationContext());
             recyclerView.setAdapter(adapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+       //     recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setLayoutManager(new LinearLayoutManagerWithSmoothScroller(getApplicationContext()));
-
-            if (z.equals("1")) {
-                recyclerView.smoothScrollToPosition(datalist.size() - 1);
-                datalist.get(datalist.size() - 1).setOk(true);
-                recyclerView.smoothScrollToPosition(datalist.size() - 1);
-
-            }
             txtall.setText(getText(R.string.all) + "(" + datalist.size() + ")");
 
 
@@ -310,10 +298,8 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
 
             try {
 
-                datalist = tagPopupFillTagSoap.fillTag(companiesid);
-                isSuccess = true;
-                z = params[1];
-
+                    datalist=departmentPopupFillSoap.memberByCompId(params[0]);
+                        isSuccess = true;
 
             } catch (Exception ex) {
                 isSuccess = false;
@@ -325,4 +311,5 @@ public class STagPopup extends AppCompatActivity implements SAddTagPopup.DialogL
 
 
     }
+
 }

@@ -215,8 +215,10 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
 
 
     private void getMainTasks() {
+
         MainTasks mainTasks = new MainTasks();
         mainTasks.execute("");
+
     }
 
     private void clicklisteners() {
@@ -236,8 +238,8 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
                 long oneday = 86400000l;
 
                 CalendarTask calendarTask = new CalendarTask();
-                startDate=sdf.format(new Date(dateClicked.getTime()).toString());
-                endDate=sdf.format(new Date(dateClicked.getTime() + oneday).toString());
+                startDate=sdf.format(new Date(dateClicked.getTime()));
+                endDate=sdf.format(new Date(dateClicked.getTime() + oneday));
                 calendarTask.execute("");
 
 
@@ -326,6 +328,7 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
         layout = findViewById(R.id.translayout);
         mainTaskSoap=new MainTaskSoap();
         notfCount=new NotifCountModel();
+        notifCountSoap=new NotifCountSoap();
 
 
     }
@@ -449,11 +452,11 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
                 //    fragment = new FindPeopleFragment();
                 break;
             case 2:
-                Intent share = new Intent(getApplicationContext(), ShareActivity.class);
+                Intent share = new Intent(getApplicationContext(), SShareActivity.class);
                 startActivity(share);
                 break;
             case 3:
-                Intent getshared = new Intent(getApplicationContext(), ShowAllShareActivity.class);
+                Intent getshared = new Intent(getApplicationContext(), SShowAllShareActivity.class);
                 startActivity(getshared);
                 break;
             case 4:
@@ -612,6 +615,7 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
             pbLoading.setVisibility(View.GONE);
             mainTaskAdapter = new MainTaskAdapter(getApplicationContext(), datalist);
             recyclerView.setAdapter(mainTaskAdapter);
+
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayoutManager);
@@ -715,7 +719,7 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
                 notfCount= notifCountSoap.countNotif(memberid);
             } catch (Exception ex) {
                 Log.e("HATA",ex.getMessage());
-                notfCount.setCountNotf("0");
+                notfCount.setCountNotf("12");
             }
 
             return "";

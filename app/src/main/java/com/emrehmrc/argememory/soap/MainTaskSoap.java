@@ -10,6 +10,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,9 +65,12 @@ public class MainTaskSoap {
                 if (taskDescription.equals("anyType{}")) {
                     taskDescription = "";
                 }
+                DateFormat formatter = new SimpleDateFormat("d.M.yyyy HH:mm:ss");
+                Date date = formatter.parse(taskDate);
 
-                    if(taskDate.length()<19)taskDate="0"+taskDate;
-                taskModelArrayList.add(new MainTaskModel(taskDate.substring(8), taskCreater,
+                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dt=formatter.format(date);
+                taskModelArrayList.add(new MainTaskModel(dt, taskCreater,
                         taskTag,
                         taskDescription, taskCountMan, taskId, subTaskCount));
 

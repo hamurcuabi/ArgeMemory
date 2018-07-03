@@ -3,7 +3,7 @@ package com.emrehmrc.argememory.soap;
 import android.util.Log;
 
 import com.emrehmrc.argememory.helper.Utils;
-import com.emrehmrc.argememory.model.MainTaskModel;
+import com.emrehmrc.argememory.model.NotifCountModel;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -12,22 +12,23 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
 
-public class AddTagPopupInsertSoap {
+public class ShareMemberPopupSoap {
+
 
     private static final String NAMESPACE = "http://argememory.com/";
-    private static final String METHODE = "AddTag";
-    private static final String SOAP_ACTION = "http://argememory.com/AddTag";
-    private static final String URL = "http://www.argememory.com/webservice/Tag.asmx";
+    private static final String METHODE = "GetMemberByShareId";
+    private static final String SOAP_ACTION = "http://argememory.com/GetMemberByShareId";
+    private static final String URL = "http://www.argememory.com/webservice/Share.asmx";
     private SoapObject soapObject;
+    private ArrayList<String> memberNames;
     private SoapSerializationEnvelope soapSerializationEnvelope;
     private HttpTransportSE httpsTransportSE;
-    boolean isOk=true;
 
-    public boolean insertTag(String compId,String name) {
+    public ArrayList<String> shareMemberName(String shareId) {
 
+        memberNames=new ArrayList<>();
         soapObject = new SoapObject(NAMESPACE, METHODE);
-        soapObject.addProperty("compId", compId);
-        soapObject.addProperty("name", name);
+        soapObject.addProperty("shareId", shareId);
         soapObject.addProperty("api", Utils.API_KEY);
 
         soapSerializationEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -42,17 +43,19 @@ public class AddTagPopupInsertSoap {
             httpsTransportSE.call(SOAP_ACTION, soapSerializationEnvelope);
 
             SoapObject response = (SoapObject) soapSerializationEnvelope.bodyIn;
-                String ok = response.getProperty(0).toString();
-                if(ok=="true"){
-                    isOk=true;
-                }
+            SoapObject responseMember2 = (SoapObject) response.getProperty(0);
+            for (int i = 0; i < responseMember2.getPropertyCount(); i++) {
+                SoapObject responseMember = (SoapObject) responseMember2.getProperty(i);
+                String name = responseMember.getProperty("name").toString();
+                memberNames.add(name);
 
 
-
+            }
         } catch (Exception ex) {
             Log.e("ERROR", ex.getMessage());
         }
-        return isOk;
+        return memberNames;
     }
+
 
 }

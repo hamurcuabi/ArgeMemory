@@ -17,6 +17,10 @@ import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.model.ShareModel;
 import com.emrehmrc.argememory.model.SingletonShare;
 import com.emrehmrc.argememory.popup.CommentPopup;
+import com.emrehmrc.argememory.popup.SCommentPopup;
+import com.emrehmrc.argememory.popup.SShareMemberPopup;
+import com.emrehmrc.argememory.popup.SShareTagPopup;
+import com.emrehmrc.argememory.popup.SUpdateDescpPopup;
 import com.emrehmrc.argememory.popup.ShareMemberPopup;
 import com.emrehmrc.argememory.popup.ShareTagPopup;
 import com.emrehmrc.argememory.popup.UpdateDescpPopup;
@@ -79,7 +83,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyviewHolder
         SingletonShare singletonShare = SingletonShare.getInstance();
         singletonShare.setSharedId(id);
         singletonShare.setOldDescp(descp);
-        UpdateDescpPopup updateDescpPopup = new UpdateDescpPopup();
+        SUpdateDescpPopup updateDescpPopup = new SUpdateDescpPopup();
         updateDescpPopup.show(mfragmentManager, "Açıklama " +
                 "Güncelleme");
 
@@ -121,7 +125,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyviewHolder
             imgMembers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(mContentxt, ShareMemberPopup.class);
+                    Intent i = new Intent(mContentxt, SShareMemberPopup.class);
                     i.putExtra("id", clicked.getShareID());
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContentxt.startActivity(i);
@@ -131,7 +135,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyviewHolder
             txtTagImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(mContentxt, ShareTagPopup.class);
+                    Intent i = new Intent(mContentxt, SShareTagPopup.class);
                     i.putExtra("id", clicked.getShareID());
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContentxt.startActivity(i);
@@ -146,7 +150,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyviewHolder
             txtComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(mContentxt, CommentPopup.class);
+                    Intent i = new Intent(mContentxt, SCommentPopup.class);
                     i.putExtra("id", clicked.getShareID());
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContentxt.startActivity(i);

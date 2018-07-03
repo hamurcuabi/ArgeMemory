@@ -7,11 +7,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/iconz"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -25,53 +25,41 @@
         <activity
             android:name=".popup.STaskManPopup"
             android:theme="@style/TaskMans" />
-        <activity android:name=".activity.VolleyDemo">
-
-        </activity>
+        <activity android:name=".activity.VolleyDemo"></activity>
 
         <service android:name=".services.NotificationServices" />
 
-        <activity android:name=".activity.FtpUpload" />
-        <activity android:name=".activity.FileActivity" />
+        <activity android:name=".activity.FileActivity"></activity>
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/CustomNoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".activity.ShareActivity" />
-        <activity android:name=".popup.DepartmentPopup" />
-        <activity android:name=".popup.PersonelPopup" />
+        <activity android:name=".activity.SShareActivity" />
+        <activity android:name=".popup.SDepartmentPopup" />
+        <activity android:name=".popup.SPersonelPopup" />
+        <activity android:name=".popup.STagPopup" />
+        <activity android:name=".activity.SShowAllShareActivity" />
         <activity
-            android:name=".activity.ShareTabActivity"
-            android:label="@string/title_activity_share_tab"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".popup.TagPopup" />
-        <activity android:name=".activity.ShowAllShareActivity" />
-        <activity
-            android:name=".popup.ShareMemberPopup"
+            android:name=".popup.SShareMemberPopup"
             android:theme="@style/TaskMans" />
         <activity
-            android:name=".popup.ShareTagPopup"
+            android:name=".popup.SShareTagPopup"
             android:theme="@style/TaskMans" />
-        <activity android:name=".activity.NavDrawerActivity" />
-        <activity android:name=".activity.MainActivityNavDrawer" />
+        <activity android:name=".activity.SMainActivityNavDrawer"></activity>
         <activity
             android:name=".popup.SCrashPopup"
             android:theme="@style/CustomNoActionBar" />
         <activity
-            android:name=".popup.CommentPopup"
+            android:name=".popup.SCommentPopup"
             android:theme="@style/CustomNoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-        <activity android:name=".activity.SLoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.SMainActivityNavDrawer">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".activity.SLoginActivity"></activity>
+        <activity android:name=".activity.ProfileActivity"></activity>
     </application>
 
 </manifest>

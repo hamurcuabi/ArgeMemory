@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 public class ShareTagPopupSoap {
 
-
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "GetTagName";
     private static final String SOAP_ACTION = "http://argememory.com/GetTagName";
     private static final String URL = "http://www.argememory.com/webservice/TaskAndShare.asmx";
@@ -27,7 +25,7 @@ public class ShareTagPopupSoap {
     public ArrayList<String> getTagNames(String shareId) {
 
         tagList = new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("shareId", shareId);
         soapObject.addProperty("api", Utils.API_KEY);
 

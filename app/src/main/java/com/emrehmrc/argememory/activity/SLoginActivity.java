@@ -105,6 +105,8 @@ public class SLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DoLogin doLogin = new DoLogin();
                 doLogin.execute("");
+
+
             }
         });
     }

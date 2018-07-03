@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 public class ShareMemberPopupSoap {
 
-
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "GetMemberByShareId";
     private static final String SOAP_ACTION = "http://argememory.com/GetMemberByShareId";
     private static final String URL = "http://www.argememory.com/webservice/Share.asmx";
@@ -27,7 +25,7 @@ public class ShareMemberPopupSoap {
     public ArrayList<String> shareMemberName(String shareId) {
 
         memberNames=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("shareId", shareId);
         soapObject.addProperty("api", Utils.API_KEY);
 

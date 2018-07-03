@@ -11,7 +11,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class InsertPersSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "InsertShareMember";
     private static final String SOAP_ACTION = "http://argememory.com/InsertShareMember";
     private static final String URL = "http://www.argememory.com/webservice/Share.asmx";
@@ -22,7 +21,7 @@ public class InsertPersSoap {
 
     public boolean insertPers(String shareId, String memberId) {
 
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("shareId", shareId);
         soapObject.addProperty("memberId", memberId);
         soapObject.addProperty("api", Utils.API_KEY);

@@ -61,7 +61,7 @@ public class FileActivity extends Activity {
             public void onClick(View v) {
                 if (bm != null) {
 
-                //   base64=bitmapToBase64(bm);
+                  base64=bitmapToBase64(bm);
                     new UploadImage().execute();
                 }
             }
@@ -177,7 +177,7 @@ public class FileActivity extends Activity {
 
     private String bitmapToBase64(Bitmap bitmap) {
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,20, baos);
         byte [] b=baos.toByteArray();
         String temp=null;
         try{
@@ -187,7 +187,7 @@ public class FileActivity extends Activity {
             e.printStackTrace();
         }catch(OutOfMemoryError e){
             baos=new  ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,10, baos);
             b=baos.toByteArray();
             temp=Base64.encodeToString(b, Base64.DEFAULT);
             Log.e("EWN", "Out of memory error catched");
@@ -212,7 +212,7 @@ public class FileActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-          //  soap.uploadImg(base64);
+           soap.uploadImg(base64);
 
             return null;
         }

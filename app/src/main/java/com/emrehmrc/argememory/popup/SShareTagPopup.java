@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.ShareTagPopUpAdapter;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.soap.ShareTagPopupSoap;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class SShareTagPopup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_task_man_pop_up);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

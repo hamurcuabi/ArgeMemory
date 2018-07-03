@@ -17,7 +17,6 @@ import java.util.Date;
 
 public class ShowAllShareSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "GetAllShare";
     private static final String METHODE_DATE = "GetAllShareByDate";
     private static final String SOAP_ACTION = "http://argememory.com/GetAllShare";
@@ -33,7 +32,7 @@ public class ShowAllShareSoap {
 
         shareModel = new ShareModel();
         shareModelArrayList = new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("compId", compId);
         soapObject.addProperty("api", Utils.API_KEY);
 
@@ -83,7 +82,7 @@ public class ShowAllShareSoap {
 
         shareModel = new ShareModel();
         shareModelArrayList = new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE_DATE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE_DATE);
         soapObject.addProperty("compId", compId);
         soapObject.addProperty("date", date);
         soapObject.addProperty("dateSecond", dateSecond);

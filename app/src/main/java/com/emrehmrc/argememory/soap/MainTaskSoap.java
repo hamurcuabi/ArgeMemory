@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class MainTaskSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
+
     private static final String METHODE = "MainTask";
     private static final String METHODE_CALENDAR = "CalendarTask";
     private static final String SOAP_ACTION = "http://argememory.com/MainTask";
@@ -34,7 +34,7 @@ public class MainTaskSoap {
 
         mainTaskModel = new MainTaskModel();
         taskModelArrayList=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("memberId", memberId);
         soapObject.addProperty("api", Utils.API_KEY);
 
@@ -88,7 +88,7 @@ public class MainTaskSoap {
 
         mainTaskModel = new MainTaskModel();
         taskModelArrayList=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE_CALENDAR);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE_CALENDAR);
         soapObject.addProperty("memberId", memberId);
         soapObject.addProperty("dateStart", dateStart);
         soapObject.addProperty("dateEnd", dateEnd);

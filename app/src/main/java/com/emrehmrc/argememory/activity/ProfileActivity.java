@@ -3,7 +3,8 @@ package com.emrehmrc.argememory.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import
+import com.emrehmrc.argememory.R;
+
 
 public class ProfileActivity extends AppCompatActivity {
 

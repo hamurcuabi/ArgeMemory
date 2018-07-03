@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class TagPopupFillTagSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "ShowTag";
     private static final String SOAP_ACTION = "http://argememory.com/ShowTag";
     private static final String URL = "http://www.argememory.com/webservice/tag.asmx";
@@ -29,7 +28,7 @@ public class TagPopupFillTagSoap {
 
         tagModel = new TagModel();
         tagModelArrayList=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("compId", compId);
         soapObject.addProperty("api", Utils.API_KEY);
 

@@ -23,7 +23,7 @@ public class SCrashPopup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crash_popup);
         Intent intent = getIntent();
-         error = intent.getExtras().getString("error");
+        error = intent.getExtras().getString("error");
         crashReportEmailSoap=new CrashReportEmailSoap();
         btnClose=findViewById(R.id.btnSendNo);
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +32,7 @@ public class SCrashPopup extends AppCompatActivity {
                 finish();
             }
         });
+        new SendMail().execute("");
 
     }
     private class SendMail extends AsyncTask<String,String,String>{
@@ -41,7 +42,7 @@ public class SCrashPopup extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 crashReportEmailSoap.sendMail(error, Utils.DEVELOPER_EMAIL);
-                crashReportEmailSoap.sendMail(error, Utils.MAIN_DEVELOPER_EMAIL);
+               crashReportEmailSoap.sendMail(error, Utils.MAIN_DEVELOPER_EMAIL);
 
             }
             catch (Exception ex){

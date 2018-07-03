@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.ShareAdapter;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.ShareModel;
 import com.emrehmrc.argememory.popup.UpdateDescpPopup;
@@ -67,6 +68,7 @@ public class SShowAllShareActivity extends AppCompatActivity implements UpdateDe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_show_all_share);
 
         init();

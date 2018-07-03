@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class TaskMembersSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "TaskMembers";
     private static final String SOAP_ACTION = "http://argememory.com/TaskMembers";
     private static final String URL = "http://www.argememory.com/webservice/task.asmx";
@@ -29,7 +28,7 @@ public class TaskMembersSoap {
 
         taskManModel = new TaskManModel();
         taskModelArrayList=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("taskId", taskId);
         soapObject.addProperty("api", Utils.API_KEY);
 

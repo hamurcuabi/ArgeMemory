@@ -11,7 +11,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class UpdateDescPopupSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "UpdateName";
     private static final String SOAP_ACTION = "http://argememory.com/UpdateName";
     private static final String URL = "http://www.argememory.com/webservice/Share.asmx";
@@ -22,7 +21,7 @@ public class UpdateDescPopupSoap {
 
     public boolean updateDesc(String shareId,String name) {
 
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("shareId", shareId);
         soapObject.addProperty("name", name);
         soapObject.addProperty("api", Utils.API_KEY);

@@ -17,7 +17,6 @@ import java.util.Date;
 
 public class CommentPopupFillCommentSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "GetComments";
     private static final String METHODE_INSERT = "AddComment";
     private static final String SOAP_ACTION = "http://argememory.com/GetComments";
@@ -34,7 +33,7 @@ public class CommentPopupFillCommentSoap {
 
         shareCommentModel = new ShareCommentModel();
         shareCommentModelArrayList = new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("parentId", parentId);
         soapObject.addProperty("api", Utils.API_KEY);
 
@@ -75,7 +74,7 @@ public class CommentPopupFillCommentSoap {
     public boolean insertComment(String compId, String parentId, String memberId, String name,
                                  String date, String clock) {
 
-        soapObject = new SoapObject(NAMESPACE, METHODE_INSERT);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE_INSERT);
         soapObject.addProperty("compId", compId);
         soapObject.addProperty("parentId", parentId);
         soapObject.addProperty("memberId", memberId);

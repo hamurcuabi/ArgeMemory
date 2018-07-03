@@ -13,7 +13,6 @@ import org.ksoap2.transport.HttpTransportSE;
 public class MemberLoginSoap {
 
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "MemberLogin";
     private static final String SOAP_ACTION = "http://argememory.com/MemberLogin";
     private static final String URL = "http://www.argememory.com/webservice/member.asmx";
@@ -25,7 +24,7 @@ public class MemberLoginSoap {
     public MemberModel loginMember(String email, String pass) {
 
         memberModel = new MemberModel();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("email", email);
         soapObject.addProperty("pass", pass);
         soapObject.addProperty("api", Utils.API_KEY);

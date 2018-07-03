@@ -12,7 +12,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class UploadImageSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "UploadFiles";
     private static final String SOAP_ACTION = "http://argememory.com/UploadFiles";
     private static final String URL = "http://www.argememory.com/webservice/member.asmx";
@@ -23,7 +22,7 @@ public class UploadImageSoap {
 
     public boolean uploadImg(String base64String) {
 
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("base64String", base64String);
        // soapObject.addProperty("api", Utils.API_KEY);
 

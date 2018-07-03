@@ -19,8 +19,9 @@ public class Utils {
     public static Integer PENDING_FROM_NOTİFİATİON = 1452;
     public static Integer SPLASH_TİME = 3000;
     public static String API_KEY = "7cdbfcb3c50724dea62b13b76c55a674";
-    public static String DEVELOPER_EMAIL = "emirogs1@gmail.com";
+    public static String DEVELOPER_EMAIL = "emrehamurcu_1995@hotmail.com";
     public static String MAIN_DEVELOPER_EMAIL = "destek@zdijital.com";
+    public static final String NAMESPACE = "http://argememory.com/";
 
 
 }

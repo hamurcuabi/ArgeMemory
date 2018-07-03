@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.adapter.PersonelPopupAdapter;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.DepartmentModel;
 import com.emrehmrc.argememory.model.PersonelModel;
@@ -59,6 +60,7 @@ public class SPersonelPopup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_personel_popup);
         init();
         setClickListeners();

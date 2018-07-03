@@ -18,6 +18,7 @@ import android.widget.EditText;
 import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.connection.ConnectionClass;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.model.SingletonShare;
 import com.emrehmrc.argememory.soap.AddTagPopupInsertSoap;

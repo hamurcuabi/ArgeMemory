@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class AddTagPopupInsertSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
+
     private static final String METHODE = "AddTag";
     private static final String SOAP_ACTION = "http://argememory.com/AddTag";
     private static final String URL = "http://www.argememory.com/webservice/Tag.asmx";
@@ -25,7 +25,7 @@ public class AddTagPopupInsertSoap {
 
     public boolean insertTag(String compId,String name) {
 
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("compId", compId);
         soapObject.addProperty("name", name);
         soapObject.addProperty("api", Utils.API_KEY);

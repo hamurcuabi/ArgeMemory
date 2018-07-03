@@ -14,7 +14,6 @@ import org.ksoap2.transport.HttpTransportSE;
 public class NotifCountSoap {
 
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "CountNotification";
     private static final String SOAP_ACTION = "http://argememory.com/CountNotification";
     private static final String URL = "http://www.argememory.com/webservice/SystemNotification.asmx";
@@ -26,7 +25,7 @@ public class NotifCountSoap {
     public NotifCountModel countNotif(String memberId) {
 
         notifCountModel = new NotifCountModel();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("memberId", memberId);
         soapObject.addProperty("api", Utils.API_KEY);
 
@@ -57,7 +56,7 @@ public class NotifCountSoap {
     public String countNotifString(String memberId) {
 
         String count="0";
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("memberId", memberId);
         soapObject.addProperty("api", Utils.API_KEY);
 

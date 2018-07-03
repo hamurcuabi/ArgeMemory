@@ -28,6 +28,7 @@ import com.emrehmrc.argememory.adapter.DepartmentSpinnerAdapter;
 import com.emrehmrc.argememory.adapter.PersonelSpinnerAdapter;
 import com.emrehmrc.argememory.adapter.TagSpinnerAdapter;
 import com.emrehmrc.argememory.custom_ui.CustomToast;
+import com.emrehmrc.argememory.helper.CustomExceptionHandler;
 import com.emrehmrc.argememory.helper.Utils;
 import com.emrehmrc.argememory.interfaces.ShareInterface;
 import com.emrehmrc.argememory.model.DepartmentModel;
@@ -73,6 +74,7 @@ public class SShareActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(this));
         setContentView(R.layout.activity_share);
 
         init();

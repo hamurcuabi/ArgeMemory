@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class DepartmentPopupFillSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "DepartmentByCompid";
     private static final String SOAP_ACTION = "http://argememory.com/DepartmentByCompid";
     private static final String URL = "http://www.argememory.com/webservice/Department.asmx";
@@ -29,7 +28,7 @@ public class DepartmentPopupFillSoap {
 
         departmentModel = new DepartmentModel();
         departmentModelArrayList=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("compId", compId);
         soapObject.addProperty("api", Utils.API_KEY);
 

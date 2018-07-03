@@ -11,7 +11,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class InsertTagSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
+
     private static final String METHODE = "InsertShareTag";
     private static final String SOAP_ACTION = "http://argememory.com/InsertShareTag";
     private static final String URL = "http://www.argememory.com/webservice/Share.asmx";
@@ -22,7 +22,7 @@ public class InsertTagSoap {
 
     public boolean insertTag(String shareId, String tagId) {
 
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("shareId", shareId);
         soapObject.addProperty("tagId", tagId);
         soapObject.addProperty("api", Utils.API_KEY);

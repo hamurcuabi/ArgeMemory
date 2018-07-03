@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class PersonelPopupFillSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
     private static final String METHODE = "MemberByDepid";
     private static final String METHODE_COMP = "MemberByCompId";
     private static final String SOAP_ACTION = "http://argememory.com/MemberByDepid";
@@ -31,7 +30,7 @@ public class PersonelPopupFillSoap {
 
         personelModel = new PersonelModel();
         personelModelArrayList=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("depId", depId);
         soapObject.addProperty("api", Utils.API_KEY);
 
@@ -66,7 +65,7 @@ public class PersonelPopupFillSoap {
 
         personelModel = new PersonelModel();
         personelModelArrayList=new ArrayList<>();
-        soapObject = new SoapObject(NAMESPACE, METHODE_COMP);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE_COMP);
         soapObject.addProperty("compId", compId);
         soapObject.addProperty("api", Utils.API_KEY);
 

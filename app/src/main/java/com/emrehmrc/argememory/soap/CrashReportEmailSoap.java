@@ -11,7 +11,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class CrashReportEmailSoap {
 
-    private static final String NAMESPACE = "http://argememory.com/";
+
     private static final String METHODE = "SendMail";
     private static final String SOAP_ACTION = "http://argememory.com/SendMail";
     private static final String URL = "http://www.argememory.com/webservice/AndroidCrashEmail.asmx";
@@ -23,7 +23,7 @@ public class CrashReportEmailSoap {
 
 
         boolean isOk=false;
-        soapObject = new SoapObject(NAMESPACE, METHODE);
+        soapObject = new SoapObject(Utils.NAMESPACE, METHODE);
         soapObject.addProperty("message", message);
         soapObject.addProperty("email", email);
         soapObject.addProperty("api", Utils.API_KEY);
@@ -39,9 +39,8 @@ public class CrashReportEmailSoap {
 
             httpsTransportSE.call(SOAP_ACTION, soapSerializationEnvelope);
             SoapObject response = (SoapObject) soapSerializationEnvelope.bodyIn;
-            SoapObject responseTask = (SoapObject) response.getProperty(0);
-            for (int i = 0; i < responseTask.getPropertyCount(); i++) {
-                String ok = responseTask.getProperty(0).toString();
+            for (int i = 0; i < response.getPropertyCount(); i++) {
+                String ok = response.getProperty(0).toString();
                 if(ok=="true")isOk=true;
 
             }

@@ -10,10 +10,18 @@ public class SingletonShare {
     private static String comment;
     private static String newTag;
     //Dialogfragment Despcription
-    private  String sharedId;
+    private String sharedId;
     private String  oldDescp;
+    //Share files shareid
+    private String fileSharedId;
 
+    public String getFileSharedId() {
+        return fileSharedId;
+    }
 
+    public void setFileSharedId(String fileSharedId) {
+        this.fileSharedId = fileSharedId;
+    }
 
     public String getOldDescp() {
         return oldDescp;

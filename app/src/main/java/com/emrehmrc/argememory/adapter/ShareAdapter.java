@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.emrehmrc.argememory.R;
+import com.emrehmrc.argememory.activity.UploadActivity;
 import com.emrehmrc.argememory.model.ShareModel;
 import com.emrehmrc.argememory.model.SingletonShare;
 import com.emrehmrc.argememory.popup.CommentPopup;
@@ -93,6 +95,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyviewHolder
 
     public class MyviewHolder extends RecyclerView.ViewHolder {
 
+        CardView cardView;
         TextView txtDate, txtOwner, txtTag, txtTotalMember, txtDescrp, txtTagImage, txtDescpS,
                 txtComment;
         ImageButton imgMembers;
@@ -109,6 +112,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyviewHolder
             txtTagImage = itemView.findViewById(R.id.txtTagS);
             txtDescpS = itemView.findViewById(R.id.txtDescpS);
             txtComment=itemView.findViewById(R.id.txtCommnet);
+            cardView=itemView.findViewById(R.id.rootCardview);
 
 
         }
@@ -154,6 +158,19 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyviewHolder
                     i.putExtra("id", clicked.getShareID());
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContentxt.startActivity(i);
+                }
+            });
+            cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    SingletonShare singletonShare=SingletonShare.getInstance();
+                    singletonShare.setFileSharedId(clicked.getShareID());
+
+                    Intent i = new Intent(mContentxt, UploadActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContentxt.startActivity(i);
+                    return true;
                 }
             });
 

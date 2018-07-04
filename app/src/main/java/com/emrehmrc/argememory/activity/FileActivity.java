@@ -2,6 +2,7 @@ package com.emrehmrc.argememory.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,17 +23,21 @@ import com.emrehmrc.argememory.R;
 import com.emrehmrc.argememory.helper.Utility;
 import com.emrehmrc.argememory.soap.UploadImageSoap;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashSet;
 
 
 public class FileActivity extends Activity {
 
-    UploadImageSoap soap;
     Bitmap bm;
     String base64;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -40,6 +45,7 @@ public class FileActivity extends Activity {
     private ImageView ivImage;
     private String userChoosenTask;
     HashSet<String> hash;
+    public String realPath="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +61,12 @@ public class FileActivity extends Activity {
             }
         });
         ivImage = findViewById(R.id.ivImage);
-        soap = new UploadImageSoap();
         btnUpload.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (bm != null) {
 
-                  base64=bitmapToBase64(bm);
-                    new UploadImage().execute();
+
                 }
             }
         });
@@ -173,49 +177,6 @@ public class FileActivity extends Activity {
         }
 
         ivImage.setImageBitmap(bm);
-    }
-
-    private String bitmapToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,20, baos);
-        byte [] b=baos.toByteArray();
-        String temp=null;
-        try{
-            System.gc();
-            temp=Base64.encodeToString(b, Base64.DEFAULT);
-        }catch(Exception e){
-            e.printStackTrace();
-        }catch(OutOfMemoryError e){
-            baos=new  ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,10, baos);
-            b=baos.toByteArray();
-            temp=Base64.encodeToString(b, Base64.DEFAULT);
-            Log.e("EWN", "Out of memory error catched");
-        }
-        return temp;
-    }
-
-
-    private class UploadImage extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(FileActivity.this, "Yüklendi",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-           soap.uploadImg(base64);
-
-            return null;
-        }
     }
 
 }

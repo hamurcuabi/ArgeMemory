@@ -34,7 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_format_list_numbered_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/file/ic_file_upload_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -56,7 +56,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="C:\Users\Emre Hmrc\Desktop\STAFF\zlogo.png" />
-                                      <entry key="outputName" value="subTask" />
+                                      <entry key="outputName" value="upload" />
                                       <entry key="theme" value="CUSTOM" />
                                     </map>
                                   </option>
@@ -84,7 +84,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_dehaze_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_image_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -96,7 +96,7 @@
                                     <map>
                                       <entry key="iconShape" value="NONE" />
                                       <entry key="imageAsset" value="C:\Users\Emre Hmrc\Downloads\iconz.png" />
-                                      <entry key="outputName" value="hamg" />
+                                      <entry key="outputName" value="galleri" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -132,7 +132,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

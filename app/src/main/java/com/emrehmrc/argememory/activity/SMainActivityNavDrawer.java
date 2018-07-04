@@ -480,9 +480,7 @@ public class SMainActivityNavDrawer extends AppCompatActivity {
                     lang = true;
                 }
                 break;
-            case 7: startActivity(new Intent(getApplicationContext(),FileActivity.class)); break;
-            default:
-                break;
+
         }
 
         mDrawerList.setItemChecked(position, true);
